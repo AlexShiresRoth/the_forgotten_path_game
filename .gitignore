@@ -1,0 +1,10 @@
+*Content
+*DerivedDataCache
+*Intermediate
+*Saved
+*.ignore
+*.vscode/
+*Binaries/
+*Brushify_Shaders.png
+*Config/
+*The_Forgotten_Path.code-workspace

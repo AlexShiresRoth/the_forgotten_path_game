@@ -18,7 +18,6 @@ void AInteractable_Object::GetMeshName()
 	if (UStaticMeshComponent *Mesh = FindComponentByClass<UStaticMeshComponent>())
 	{
 		FString MeshName = Mesh->GetStaticMesh()->GetName();
-
 		UE_LOG(LogTemp, Warning, TEXT("Mesh is set to %s"), *MeshName);
 	}
 }
@@ -31,41 +30,42 @@ void AInteractable_Object::BeginPlay()
 	GetMeshName();
 
 	// Get the mesh component
-	// Bind cursor over events to the actor
-	OnBeginCursorOver.AddDynamic(this, &AInteractable_Object::OnActorBeginCursorOver);
-	OnEndCursorOver.AddDynamic(this, &AInteractable_Object::OnActorEndCursorOver);
-
-	// Get the mesh component
 	MeshComponent = FindComponentByClass<UStaticMeshComponent>();
 
-	// Store the mesh component reference
+	// Store the mesh component reference and base material
 	if (MeshComponent)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("MeshComponent is valid"));
+		BaseMaterial = MeshComponent->GetMaterial(0);
 
-		// Create outline material
-		OutlineMaterial = CreateOutlineMaterial();
-		if (OutlineMaterial)
+		// Make sure BaseMaterial exists before proceeding
+		if (BaseMaterial)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Outline material is set to %s"), *OutlineMaterial->GetName());
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Failed to create outline material"));
+			// Create outline material
+			OutlineMaterial = CreateOutlineMaterial();
+
+			if (OutlineMaterial)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Outline material is set to %s"), *OutlineMaterial->GetName());
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Failed to create outline material"));
+			}
 		}
 	}
 	else
 	{
 		UE_LOG(LogTemp, Warning, TEXT("MeshComponent is not valid"));
 	}
+
+	OnBeginCursorOver.AddDynamic(this, &AInteractable_Object::OnActorBeginCursorOver);
+	OnEndCursorOver.AddDynamic(this, &AInteractable_Object::OnActorEndCursorOver);
 }
 
 void AInteractable_Object::OnActorBeginCursorOver(AActor *TouchedActor)
 {
 	if (TouchedActor == this && MeshComponent)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("OnActorBeginCursorOver"));
-
 		// Apply outline material to mesh component
 		ApplyOutlineMaterial();
 	}
@@ -75,8 +75,6 @@ void AInteractable_Object::OnActorEndCursorOver(AActor *TouchedActor)
 {
 	if (TouchedActor == this && MeshComponent)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("OnActorEndCursorOver"));
-
 		// Revert material on mesh component
 		RevertMaterial();
 	}
@@ -90,14 +88,28 @@ void AInteractable_Object::Tick(float DeltaTime)
 
 UMaterialInterface *AInteractable_Object::CreateOutlineMaterial()
 {
-	UMaterialInstanceDynamic *DynamicMaterial = UMaterialInstanceDynamic::Create(BaseMaterial, this);
-
-	if (DynamicMaterial)
+	if (BaseMaterial)
 	{
-		DynamicMaterial->SetScalarParameterValue(TEXT("OutlineWidth"), 0.2f);
-		DynamicMaterial->SetVectorParameterValue(TEXT("OutlineColor"), FLinearColor::Red);
-		return DynamicMaterial;
+		// Create a dynamic material instance from the base material
+		UMaterialInstanceDynamic *DynamicMaterial = UMaterialInstanceDynamic::Create(BaseMaterial, this);
+
+		if (DynamicMaterial)
+		{
+			// Modify dynamic material parameters for outline effect
+			DynamicMaterial->SetScalarParameterValue(TEXT("OutlineWidth"), 0.2f);
+			DynamicMaterial->SetVectorParameterValue(TEXT("OutlineColor"), FLinearColor::Red);
+			return DynamicMaterial;
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Failed to create dynamic material instance"));
+		}
 	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("BaseMaterial is not valid"));
+	}
+
 	return nullptr;
 }
 
@@ -105,17 +117,9 @@ void AInteractable_Object::ApplyOutlineMaterial()
 {
 	if (OutlineMaterial && MeshComponent)
 	{
-		// Store the current material
-		BaseMaterial = MeshComponent->GetMaterial(0);
-
-		// Create a dynamic material instance from the outline material
-		UMaterialInstanceDynamic *DynamicMaterial = UMaterialInstanceDynamic::Create(OutlineMaterial, this);
-
-		// Apply the dynamic material instance to the mesh component
-		MeshComponent->SetMaterial(0, DynamicMaterial);
-
-		// Store the dynamic material instance
-		DynamicMaterials.Add(DynamicMaterial);
+		// Apply the outline material to the mesh component
+		UE_LOG(LogTemp, Warning, TEXT("Applying outline material %s"), *OutlineMaterial->GetName());
+		MeshComponent->SetMaterial(0, OutlineMaterial);
 	}
 }
 
@@ -124,9 +128,7 @@ void AInteractable_Object::RevertMaterial()
 	if (BaseMaterial && MeshComponent)
 	{
 		// Revert material on mesh component
+		UE_LOG(LogTemp, Warning, TEXT("Reverting to base material %s"), *BaseMaterial->GetName());
 		MeshComponent->SetMaterial(0, BaseMaterial);
-
-		// Clear dynamic materials array
-		DynamicMaterials.Empty();
 	}
 }
