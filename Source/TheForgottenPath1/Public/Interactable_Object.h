@@ -20,6 +20,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Mesh)
 	void GetMeshName();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Object Metadata")
+	FString MeshTitle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Object Metadata")
+	int32 MeshID;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

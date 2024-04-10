@@ -2,6 +2,8 @@
 
 #include "Interactable_Object.h"
 #include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
+
 // Sets default values
 AInteractable_Object::AInteractable_Object()
 {
@@ -69,6 +71,12 @@ void AInteractable_Object::OnActorBeginCursorOver(AActor *TouchedActor)
 		// Apply outline material to mesh component
 		ApplyOutlineMaterial();
 
+		// FString ObjectData = RetrieveObjectData();
+		if (MeshTitle != "" && MeshID > 0)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("MeshName: %s, MeshID: %d"), *MeshTitle, MeshID);
+		}
+
 		ShowUIWidget();
 	}
 }
@@ -86,7 +94,6 @@ void AInteractable_Object::OnActorEndCursorOver(AActor *TouchedActor)
 
 void AInteractable_Object::ShowUIWidget()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Show UI widget"));
 	if (WidgetClass && !WidgetInstance)
 	{
 		// Create an instance of the UI widget
@@ -95,8 +102,16 @@ void AInteractable_Object::ShowUIWidget()
 		// Check if the widget instance was created successfully
 		if (WidgetInstance)
 		{
-			// Add the widget to the viewport
 			WidgetInstance->AddToViewport();
+
+			FVector MeshLocation = GetActorLocation();
+
+			FVector2D ScreenLocation;
+
+			UGameplayStatics::ProjectWorldToScreen(GetWorld()->GetFirstPlayerController(), MeshLocation, ScreenLocation);
+
+			// Add the widget to the viewport
+			WidgetInstance->SetPositionInViewport(ScreenLocation);
 		}
 		else
 		{
@@ -134,7 +149,7 @@ UMaterialInterface *AInteractable_Object::CreateOutlineMaterial()
 		{
 			// Modify dynamic material parameters for outline effect
 			DynamicMaterial->SetScalarParameterValue(TEXT("OutlineWidth"), 0.2f);
-			DynamicMaterial->SetVectorParameterValue(TEXT("OutlineColor"), FLinearColor::Red);
+			// DynamicMaterial->SetVectorParameterValue(TEXT("OutlineColor"), FLinearColor::Red);
 			return DynamicMaterial;
 		}
 		else
