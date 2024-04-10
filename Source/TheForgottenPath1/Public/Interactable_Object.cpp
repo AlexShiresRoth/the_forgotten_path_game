@@ -3,6 +3,7 @@
 #include "Interactable_Object.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
+#include "Interactable_Object_Widget.h"
 
 // Sets default values
 AInteractable_Object::AInteractable_Object()
@@ -75,9 +76,9 @@ void AInteractable_Object::OnActorBeginCursorOver(AActor *TouchedActor)
 		if (MeshTitle != "" && MeshID > 0)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("MeshName: %s, MeshID: %d"), *MeshTitle, MeshID);
-		}
 
-		ShowUIWidget();
+			ShowUIWidget();
+		}
 	}
 }
 
@@ -102,6 +103,11 @@ void AInteractable_Object::ShowUIWidget()
 		// Check if the widget instance was created successfully
 		if (WidgetInstance)
 		{
+			UInteractable_Object_Widget *Widget = Cast<UInteractable_Object_Widget>(WidgetInstance);
+			if (Widget)
+			{
+				Widget->SetCustomInteractableObjectData(MeshTitle, MeshID);
+			}
 			WidgetInstance->AddToViewport();
 
 			FVector MeshLocation = GetActorLocation();
