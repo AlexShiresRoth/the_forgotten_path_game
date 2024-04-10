@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Blueprint/UserWidget.h"
 #include "Interactable_Object.generated.h"
 
 UCLASS()
@@ -33,6 +34,12 @@ protected:
 
 	UFUNCTION()
 	void HideUIWidget();
+
+	// Member variables
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UUserWidget> WidgetClass;
+
+	UUserWidget *WidgetInstance;
 
 public:
 	// Called every frame
