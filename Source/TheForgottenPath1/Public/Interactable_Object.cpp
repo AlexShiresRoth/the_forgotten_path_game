@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Interactable_Object.h"
-
+#include "Blueprint/UserWidget.h"
 // Sets default values
 AInteractable_Object::AInteractable_Object()
 {
@@ -77,6 +77,39 @@ void AInteractable_Object::OnActorEndCursorOver(AActor *TouchedActor)
 	{
 		// Revert material on mesh component
 		RevertMaterial();
+	}
+}
+
+void AInteractable_Object::ShowUIWidget()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Show UI widget"));
+	if (WidgetClass && !WidgetInstance)
+	{
+		// Create an instance of the UI widget
+		WidgetInstance = CreateWidget<UUserWidget>(GetWorld(), WidgetClass);
+
+		// Check if the widget instance was created successfully
+		if (WidgetInstance)
+		{
+			// Add the widget to the viewport
+			WidgetInstance->AddToViewport();
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Failed to create widget instance"));
+		}
+	}
+}
+
+void AInteractable_Object::HideUIWidget()
+{
+	if (WidgetInstance)
+	{
+		// Remove the widget from the viewport
+		WidgetInstance->RemoveFromParent();
+
+		// Reset the widget instance pointer
+		WidgetInstance = nullptr;
 	}
 }
 

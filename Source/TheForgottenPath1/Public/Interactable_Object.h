@@ -28,6 +28,12 @@ protected:
 	UFUNCTION()
 	void OnActorEndCursorOver(AActor *TouchedActor);
 
+	UFUNCTION()
+	void ShowUIWidget();
+
+	UFUNCTION()
+	void HideUIWidget();
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
