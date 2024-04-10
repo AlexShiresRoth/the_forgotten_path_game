@@ -4,8 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Blueprint/UserWidget.h"
 #include "Interactable_Object.generated.h"
+
+class UUserWidget;
 
 UCLASS()
 class THEFORGOTTENPATH1_API AInteractable_Object : public AActor

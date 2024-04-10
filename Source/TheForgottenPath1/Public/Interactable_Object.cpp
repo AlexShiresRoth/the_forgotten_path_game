@@ -68,6 +68,8 @@ void AInteractable_Object::OnActorBeginCursorOver(AActor *TouchedActor)
 	{
 		// Apply outline material to mesh component
 		ApplyOutlineMaterial();
+
+		ShowUIWidget();
 	}
 }
 
@@ -77,6 +79,8 @@ void AInteractable_Object::OnActorEndCursorOver(AActor *TouchedActor)
 	{
 		// Revert material on mesh component
 		RevertMaterial();
+
+		HideUIWidget();
 	}
 }
 
