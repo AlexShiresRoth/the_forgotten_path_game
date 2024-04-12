@@ -4,6 +4,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "Interactable_Object_Widget.h"
+#include "Interactable_Object_Menu_Widget.h"
 
 // Sets default values
 AInteractable_Object::AInteractable_Object()
@@ -25,6 +26,7 @@ void AInteractable_Object::GetMeshName()
 	}
 }
 
+// @TODO should refactor this to abstract startup bindings
 // Called when the game starts or when spawned
 void AInteractable_Object::BeginPlay()
 {
@@ -46,15 +48,13 @@ void AInteractable_Object::BeginPlay()
 			// Create outline material
 			OutlineMaterial = CreateOutlineMaterial();
 
-			if (OutlineMaterial)
-			{
-				UE_LOG(LogTemp, Warning, TEXT("Outline material is set to %s"), *OutlineMaterial->GetName());
-			}
-			else
+			if (OutlineMaterial == nullptr)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Failed to create outline material"));
 			}
 		}
+
+		MeshComponent->OnClicked.AddDynamic(this, &AInteractable_Object::OnMeshClicked);
 	}
 	else
 	{
@@ -75,8 +75,6 @@ void AInteractable_Object::OnActorBeginCursorOver(AActor *TouchedActor)
 		// FString ObjectData = RetrieveObjectData();
 		if (MeshTitle != "" && MeshID > 0)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("MeshName: %s, MeshID: %d"), *MeshTitle, MeshID);
-
 			ShowUIWidget();
 		}
 	}
@@ -90,6 +88,27 @@ void AInteractable_Object::OnActorEndCursorOver(AActor *TouchedActor)
 		RevertMaterial();
 
 		HideUIWidget();
+	}
+}
+
+void AInteractable_Object::OnMeshClicked(UPrimitiveComponent *ClickedComp, FKey ButtonClicked)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Mesh component clicked %s"), *MeshTitle);
+	ShowUIMenuWidget();
+}
+
+// @TODO figure out how to remove from viewport
+void AInteractable_Object::ShowUIMenuWidget()
+{
+	if (MenuWidgetClass && !MenuWidgetInstance)
+	{
+		MenuWidgetInstance = CreateWidget<UInteractable_Object_Menu_Widget>(GetWorld(), MenuWidgetClass);
+
+		if (MenuWidgetInstance)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Menu widget instance created"));
+			MenuWidgetInstance->AddToViewport();
+		}
 	}
 }
 
@@ -175,8 +194,6 @@ void AInteractable_Object::ApplyOutlineMaterial()
 {
 	if (OutlineMaterial && MeshComponent)
 	{
-		// Apply the outline material to the mesh component
-		UE_LOG(LogTemp, Warning, TEXT("Applying outline material %s"), *OutlineMaterial->GetName());
 		MeshComponent->SetMaterial(0, OutlineMaterial);
 	}
 }
@@ -185,8 +202,6 @@ void AInteractable_Object::RevertMaterial()
 {
 	if (BaseMaterial && MeshComponent)
 	{
-		// Revert material on mesh component
-		UE_LOG(LogTemp, Warning, TEXT("Reverting to base material %s"), *BaseMaterial->GetName());
 		MeshComponent->SetMaterial(0, BaseMaterial);
 	}
 }

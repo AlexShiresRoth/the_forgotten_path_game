@@ -37,10 +37,21 @@ protected:
 	void OnActorEndCursorOver(AActor *TouchedActor);
 
 	UFUNCTION()
+	void OnMeshClicked(UPrimitiveComponent *ClickedComp, FKey ButtonClicked);
+
+	UFUNCTION()
+	void ShowUIMenuWidget();
+
+	UFUNCTION()
 	void ShowUIWidget();
 
 	UFUNCTION()
 	void HideUIWidget();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UUserWidget> MenuWidgetClass;
+
+	UUserWidget *MenuWidgetInstance;
 
 	// Member variables
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
