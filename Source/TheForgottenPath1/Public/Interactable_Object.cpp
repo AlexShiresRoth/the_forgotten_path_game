@@ -26,6 +26,15 @@ void AInteractable_Object::GetMeshName()
 	}
 }
 
+void AInteractable_Object::ResetMenuWidgetInstance()
+{
+	if (MenuWidgetInstance != nullptr)
+	{
+		MenuWidgetInstance->RemoveFromParent();
+		MenuWidgetInstance = nullptr;
+	}
+}
+
 // @TODO should refactor this to abstract startup bindings
 // Called when the game starts or when spawned
 void AInteractable_Object::BeginPlay()
@@ -114,6 +123,10 @@ void AInteractable_Object::ShowUIMenuWidget()
 
 void AInteractable_Object::ShowUIWidget()
 {
+	if (WidgetInstance)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Widget instance already exists %s"), *WidgetInstance->GetName());
+	}
 	if (WidgetClass && !WidgetInstance)
 	{
 		// Create an instance of the UI widget

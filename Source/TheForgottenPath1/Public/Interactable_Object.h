@@ -17,6 +17,8 @@ public:
 	// Sets default values for this actor's properties
 	AInteractable_Object();
 
+	void ResetMenuWidgetInstance();
+
 	UFUNCTION(BlueprintCallable, Category = Mesh)
 	void GetMeshName();
 
@@ -48,9 +50,13 @@ protected:
 	UFUNCTION()
 	void HideUIWidget();
 
+	// UFUNCTION()
+	// UUserWidget *GetMenuWidgetInstance();
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
 	TSubclassOf<UUserWidget> MenuWidgetClass;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
 	UUserWidget *MenuWidgetInstance;
 
 	// Member variables
