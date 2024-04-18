@@ -10,16 +10,17 @@
  *
  */
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCloseButtonClickedDelegate);
+
 UCLASS()
 class THEFORGOTTENPATH1_API UInteractable_Object_Menu_Widget : public UUserWidget
 {
 	GENERATED_BODY()
 
 public:
-	// UPROPERTY(BlueprintAssignable, Category = "Widget Events")
-	// FButtonClickedDelegate OnButtonClicked;
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	void HandleCloseButtonClicked();
 
-	// Function to handle button click event
-	UFUNCTION(BlueprintCallable)
-	void HandleButtonClick();
+	UPROPERTY(BlueprintAssignable, Category = "UI")
+	FOnCloseButtonClickedDelegate OnCloseButtonClicked;
 };

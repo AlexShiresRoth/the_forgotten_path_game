@@ -17,26 +17,6 @@ AInteractable_Object::AInteractable_Object()
 	OutlineMaterial = nullptr;
 }
 
-void AInteractable_Object::GetMeshName()
-{
-	if (UStaticMeshComponent *Mesh = FindComponentByClass<UStaticMeshComponent>())
-	{
-		FString MeshName = Mesh->GetStaticMesh()->GetName();
-		UE_LOG(LogTemp, Warning, TEXT("Mesh is set to %s"), *MeshName);
-	}
-}
-
-void AInteractable_Object::ResetMenuWidgetInstance()
-{
-	if (MenuWidgetInstance != nullptr)
-	{
-		MenuWidgetInstance->RemoveFromParent();
-		MenuWidgetInstance = nullptr;
-	}
-}
-
-// @TODO should refactor this to abstract startup bindings
-// Called when the game starts or when spawned
 void AInteractable_Object::BeginPlay()
 {
 	Super::BeginPlay();
@@ -74,6 +54,15 @@ void AInteractable_Object::BeginPlay()
 	OnEndCursorOver.AddDynamic(this, &AInteractable_Object::OnActorEndCursorOver);
 }
 
+void AInteractable_Object::GetMeshName()
+{
+	if (UStaticMeshComponent *Mesh = FindComponentByClass<UStaticMeshComponent>())
+	{
+		FString MeshName = Mesh->GetStaticMesh()->GetName();
+		UE_LOG(LogTemp, Warning, TEXT("Mesh is set to %s"), *MeshName);
+	}
+}
+
 void AInteractable_Object::OnActorBeginCursorOver(AActor *TouchedActor)
 {
 	if (TouchedActor == this && MeshComponent)
@@ -102,31 +91,49 @@ void AInteractable_Object::OnActorEndCursorOver(AActor *TouchedActor)
 
 void AInteractable_Object::OnMeshClicked(UPrimitiveComponent *ClickedComp, FKey ButtonClicked)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Mesh component clicked %s"), *MeshTitle);
 	ShowUIMenuWidget();
 }
 
-// @TODO figure out how to remove from viewport
 void AInteractable_Object::ShowUIMenuWidget()
 {
-	if (MenuWidgetClass && !MenuWidgetInstance)
+	if (MenuWidgetInstance)
 	{
-		MenuWidgetInstance = CreateWidget<UInteractable_Object_Menu_Widget>(GetWorld(), MenuWidgetClass);
+		return;
+	}
 
+	if (MenuWidgetClass)
+	{
+		// Create a new instance of the menu widget
+		MenuWidgetInstance = CreateWidget<UInteractable_Object_Menu_Widget>(GetWorld(), MenuWidgetClass);
 		if (MenuWidgetInstance)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Menu widget instance created"));
+
+			UInteractable_Object_Menu_Widget *MenuWidget = Cast<UInteractable_Object_Menu_Widget>(MenuWidgetInstance);
+
+			if (MenuWidget)
+			{
+				MenuWidget->OnCloseButtonClicked.AddDynamic(this, &AInteractable_Object::OnMenuWidgetClosed);
+			}
+
 			MenuWidgetInstance->AddToViewport();
 		}
 	}
 }
 
+// Called from inside the menu widget blueprint's button
+void AInteractable_Object::OnMenuWidgetClosed()
+{
+	if (MenuWidgetInstance)
+	{
+		MenuWidgetInstance->RemoveFromParent();
+		MenuWidgetInstance = nullptr;
+	}
+}
+
 void AInteractable_Object::ShowUIWidget()
 {
-	if (WidgetInstance)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Widget instance already exists %s"), *WidgetInstance->GetName());
-	}
+
 	if (WidgetClass && !WidgetInstance)
 	{
 		// Create an instance of the UI widget
