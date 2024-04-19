@@ -44,11 +44,17 @@ class ATheForgottenPath1Character : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction *LookAction;
 
+
 public:
 	ATheForgottenPath1Character();
 
 	UFUNCTION(BlueprintCallable, Category = Input)
 	void SetMouseCursorVisible(bool bVisible);
+	
+	UFUNCTION()
+	float GetCharacterCurrentHealth() const;
+
+	float CharacterCurrentHealth;
 
 protected:
 	/** Called for movement input */

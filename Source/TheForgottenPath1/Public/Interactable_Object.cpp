@@ -17,11 +17,15 @@ AInteractable_Object::AInteractable_Object()
 	OutlineMaterial = nullptr;
 }
 
+// Called every frame
+void AInteractable_Object::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+}
+
 void AInteractable_Object::BeginPlay()
 {
 	Super::BeginPlay();
-
-	GetMeshName();
 
 	// Get the mesh component
 	MeshComponent = FindComponentByClass<UStaticMeshComponent>();
@@ -54,14 +58,7 @@ void AInteractable_Object::BeginPlay()
 	OnEndCursorOver.AddDynamic(this, &AInteractable_Object::OnActorEndCursorOver);
 }
 
-void AInteractable_Object::GetMeshName()
-{
-	if (UStaticMeshComponent *Mesh = FindComponentByClass<UStaticMeshComponent>())
-	{
-		FString MeshName = Mesh->GetStaticMesh()->GetName();
-		UE_LOG(LogTemp, Warning, TEXT("Mesh is set to %s"), *MeshName);
-	}
-}
+
 
 void AInteractable_Object::OnActorBeginCursorOver(AActor *TouchedActor)
 {
@@ -177,11 +174,6 @@ void AInteractable_Object::HideUIWidget()
 	}
 }
 
-// Called every frame
-void AInteractable_Object::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
 
 UMaterialInterface *AInteractable_Object::CreateOutlineMaterial()
 {

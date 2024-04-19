@@ -138,3 +138,8 @@ void ATheForgottenPath1Character::SetMouseCursorVisible(bool bVisible)
 		PlayerController->bShowMouseCursor = bVisible;
 	}
 }
+
+float ATheForgottenPath1Character::GetCharacterCurrentHealth() const
+{
+	return CharacterCurrentHealth;
+}

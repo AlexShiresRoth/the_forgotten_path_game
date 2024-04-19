@@ -20,9 +20,6 @@ public:
 	UFUNCTION()
 	void OnMenuWidgetClosed();
 
-	UFUNCTION(BlueprintCallable, Category = Mesh)
-	void GetMeshName();
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Object Metadata")
 	FString MeshTitle;
 
