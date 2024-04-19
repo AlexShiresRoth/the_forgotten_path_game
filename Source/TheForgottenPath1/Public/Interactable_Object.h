@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "Interactable_Object.generated.h"
 
+class UUserWidget;
+
 UCLASS()
 class THEFORGOTTENPATH1_API AInteractable_Object : public AActor
 {
@@ -15,8 +17,17 @@ public:
 	// Sets default values for this actor's properties
 	AInteractable_Object();
 
+	UFUNCTION()
+	void OnMenuWidgetClosed();
+
 	UFUNCTION(BlueprintCallable, Category = Mesh)
 	void GetMeshName();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Object Metadata")
+	FString MeshTitle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Object Metadata")
+	int32 MeshID;
 
 protected:
 	// Called when the game starts or when spawned
@@ -27,6 +38,30 @@ protected:
 
 	UFUNCTION()
 	void OnActorEndCursorOver(AActor *TouchedActor);
+
+	UFUNCTION()
+	void OnMeshClicked(UPrimitiveComponent *ClickedComp, FKey ButtonClicked);
+
+	UFUNCTION()
+	void ShowUIMenuWidget();
+
+	UFUNCTION()
+	void ShowUIWidget();
+
+	UFUNCTION()
+	void HideUIWidget();
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UUserWidget> MenuWidgetClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	UUserWidget *MenuWidgetInstance;
+
+	// Member variables
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UUserWidget> WidgetClass;
+
+	UUserWidget *WidgetInstance;
 
 public:
 	// Called every frame

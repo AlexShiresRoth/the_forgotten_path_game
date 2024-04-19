@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Intermediate", "Intermediate", "{663EB69A-CA4F-456B-8553-6CC13C74E59D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{EF3C44D1-A70D-453B-B7B2-8E241728D44D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildRulesProjects", "BuildRulesProjects", "{6345FD86-FF55-4F34-96E8-20EA7F31C9B7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheForgottenPath1ModuleRules", "Intermediate\Build\BuildRulesProjects\TheForgottenPath1ModuleRules\TheForgottenPath1ModuleRules.csproj", "{0690E478-8550-41D5-BC9E-9D53F76BB107}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0690E478-8550-41D5-BC9E-9D53F76BB107}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0690E478-8550-41D5-BC9E-9D53F76BB107}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0690E478-8550-41D5-BC9E-9D53F76BB107}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0690E478-8550-41D5-BC9E-9D53F76BB107}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EF3C44D1-A70D-453B-B7B2-8E241728D44D} = {663EB69A-CA4F-456B-8553-6CC13C74E59D}
+		{6345FD86-FF55-4F34-96E8-20EA7F31C9B7} = {EF3C44D1-A70D-453B-B7B2-8E241728D44D}
+		{0690E478-8550-41D5-BC9E-9D53F76BB107} = {6345FD86-FF55-4F34-96E8-20EA7F31C9B7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {663D1252-83B0-4D12-A2C8-B859C9B32CB8}
+	EndGlobalSection
+EndGlobal
