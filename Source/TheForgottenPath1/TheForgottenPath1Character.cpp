@@ -2,6 +2,7 @@
 
 #include "TheForgottenPath1Character.h"
 #include "Engine/LocalPlayer.h"
+#include "Blueprint/UserWidget.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -10,6 +11,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "Hero_Character_Widget.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -66,6 +68,8 @@ void ATheForgottenPath1Character::BeginPlay()
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
+		// Show widget that contains health and other things
+		ShowCharacterWidget();
 	}
 }
 
@@ -136,6 +140,26 @@ void ATheForgottenPath1Character::SetMouseCursorVisible(bool bVisible)
 	if (PlayerController)
 	{
 		PlayerController->bShowMouseCursor = bVisible;
+	}
+}
+
+void ATheForgottenPath1Character::ShowCharacterWidget()
+{
+	if (CharacterWidgetClass)
+	{
+		CharacterWidgetInstance = CreateWidget<UHero_Character_Widget>(GetWorld(), CharacterWidgetClass);
+
+		if (CharacterWidgetInstance)
+		{
+			UHero_Character_Widget *CharacterWidget = Cast<UHero_Character_Widget>(CharacterWidgetInstance);
+
+			CharacterWidgetInstance->AddToViewport();
+
+			if (CharacterWidget)
+			{
+				CharacterWidget->SetCharacterHealth();
+			}
+		}
 	}
 }
 

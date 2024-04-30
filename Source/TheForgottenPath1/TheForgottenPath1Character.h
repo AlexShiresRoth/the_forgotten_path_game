@@ -13,6 +13,8 @@ class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 
+class UHero_Character_Widget;
+
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config = Game)
@@ -44,13 +46,22 @@ class ATheForgottenPath1Character : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction *LookAction;
 
-
 public:
 	ATheForgottenPath1Character();
 
 	UFUNCTION(BlueprintCallable, Category = Input)
 	void SetMouseCursorVisible(bool bVisible);
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UHero_Character_Widget> CharacterWidgetClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	UHero_Character_Widget *CharacterWidgetInstance;
+
+	// set widget to viewport
+	UFUNCTION()
+	void ShowCharacterWidget();
+
 	UFUNCTION()
 	float GetCharacterCurrentHealth() const;
 
