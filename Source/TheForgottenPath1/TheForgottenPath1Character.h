@@ -13,6 +13,8 @@ class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 
+class UHero_Character_Widget;
+
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config = Game)
@@ -50,6 +52,19 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Input)
 	void SetMouseCursorVisible(bool bVisible);
 
+<<<<<<< HEAD
+=======
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UHero_Character_Widget> CharacterWidgetClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	UHero_Character_Widget *CharacterWidgetInstance;
+
+	// set widget to viewport
+	UFUNCTION()
+	void ShowCharacterWidget();
+
+>>>>>>> 6ea82aa2ff557c6aaa78363c6ff177e12eb9b213
 	UFUNCTION()
 	float GetCharacterCurrentHealth() const;
 
