@@ -10,6 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "Hero_Character_Widget.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -141,5 +142,11 @@ void ATheForgottenPath1Character::SetMouseCursorVisible(bool bVisible)
 
 float ATheForgottenPath1Character::GetCharacterCurrentHealth() const
 {
+
 	return CharacterCurrentHealth;
+}
+
+float ATheForgottenPath1Character::SetCharacterCurrentHealth(float NewHealth)
+{
+	return CharacterCurrentHealth = NewHealth;
 }

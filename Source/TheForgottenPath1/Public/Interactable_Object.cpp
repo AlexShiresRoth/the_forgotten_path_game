@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Interactable_Object_Widget.h"
 #include "Interactable_Object_Menu_Widget.h"
+#include "TheForgottenPath1/TheForgottenPath1Character.h"
 
 // Sets default values
 AInteractable_Object::AInteractable_Object()
@@ -58,8 +59,6 @@ void AInteractable_Object::BeginPlay()
 	OnEndCursorOver.AddDynamic(this, &AInteractable_Object::OnActorEndCursorOver);
 }
 
-
-
 void AInteractable_Object::OnActorBeginCursorOver(AActor *TouchedActor)
 {
 	if (TouchedActor == this && MeshComponent)
@@ -89,6 +88,16 @@ void AInteractable_Object::OnActorEndCursorOver(AActor *TouchedActor)
 void AInteractable_Object::OnMeshClicked(UPrimitiveComponent *ClickedComp, FKey ButtonClicked)
 {
 	ShowUIMenuWidget();
+
+	// get player character
+	ATheForgottenPath1Character *PlayerCharacter = Cast<ATheForgottenPath1Character>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+	if (PlayerCharacter)
+	{
+		// testplayer damage
+		float CurrentHealth = PlayerCharacter->GetCharacterCurrentHealth();
+		float NewHealth = PlayerCharacter->SetCharacterCurrentHealth(CurrentHealth - 1.f);
+	}
 }
 
 void AInteractable_Object::ShowUIMenuWidget()
@@ -173,7 +182,6 @@ void AInteractable_Object::HideUIWidget()
 		WidgetInstance = nullptr;
 	}
 }
-
 
 UMaterialInterface *AInteractable_Object::CreateOutlineMaterial()
 {
