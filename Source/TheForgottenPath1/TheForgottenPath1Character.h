@@ -52,8 +52,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Input)
 	void SetMouseCursorVisible(bool bVisible);
 
-<<<<<<< HEAD
-=======
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
 	TSubclassOf<UHero_Character_Widget> CharacterWidgetClass;
 
@@ -64,9 +62,8 @@ public:
 	UFUNCTION()
 	void ShowCharacterWidget();
 
->>>>>>> 6ea82aa2ff557c6aaa78363c6ff177e12eb9b213
-	UFUNCTION()
-	float GetCharacterCurrentHealth() const;
+	UFUNCTION(BlueprintCallable, Category = "Character Data")
+	float GetCharacterCurrentHealth();
 
 	UFUNCTION()
 	float SetCharacterCurrentHealth(float NewHealth);

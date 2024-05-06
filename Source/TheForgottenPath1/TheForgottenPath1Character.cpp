@@ -154,22 +154,29 @@ void ATheForgottenPath1Character::ShowCharacterWidget()
 			UHero_Character_Widget *CharacterWidget = Cast<UHero_Character_Widget>(CharacterWidgetInstance);
 
 			CharacterWidgetInstance->AddToViewport();
-
-			if (CharacterWidget)
-			{
-				CharacterWidget->SetCharacterHealth();
-			}
 		}
 	}
 }
 
-float ATheForgottenPath1Character::GetCharacterCurrentHealth() const
+float ATheForgottenPath1Character::GetCharacterCurrentHealth()
 {
-
 	return CharacterCurrentHealth;
 }
 
+// This does update the ui but it's a little clunky. Refactor and fix it up
 float ATheForgottenPath1Character::SetCharacterCurrentHealth(float NewHealth)
 {
-	return CharacterCurrentHealth = NewHealth;
+	CharacterCurrentHealth = NewHealth;
+	if (CharacterWidgetInstance)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Character widget instance created"));
+
+		UHero_Character_Widget *CharWidget = Cast<UHero_Character_Widget>(CharacterWidgetInstance);
+
+		if (CharWidget)
+		{
+			CharWidget->UpdateHealthUI(CharacterCurrentHealth);
+		}
+	}
+	return CharacterCurrentHealth;
 }
