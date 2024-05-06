@@ -96,7 +96,7 @@ void AInteractable_Object::OnMeshClicked(UPrimitiveComponent *ClickedComp, FKey 
 	{
 		// testplayer damage
 		float CurrentHealth = PlayerCharacter->GetCharacterCurrentHealth();
-		float NewHealth = PlayerCharacter->SetCharacterCurrentHealth(CurrentHealth - 1.f);
+		PlayerCharacter->SetCharacterCurrentHealth(CurrentHealth - 1.f);
 	}
 }
 

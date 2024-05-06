@@ -164,6 +164,7 @@ float ATheForgottenPath1Character::GetCharacterCurrentHealth()
 }
 
 // This does update the ui but it's a little clunky. Refactor and fix it up
+// How to update the player once death
 float ATheForgottenPath1Character::SetCharacterCurrentHealth(float NewHealth)
 {
 	CharacterCurrentHealth = NewHealth;
@@ -175,6 +176,12 @@ float ATheForgottenPath1Character::SetCharacterCurrentHealth(float NewHealth)
 
 		if (CharWidget)
 		{
+			if (CharacterCurrentHealth <= 0)
+			{
+				bIsDead = true;
+				CharWidget->UpdateHealthUI(0.f);
+				return 0.f;
+			}
 			CharWidget->UpdateHealthUI(CharacterCurrentHealth);
 		}
 	}

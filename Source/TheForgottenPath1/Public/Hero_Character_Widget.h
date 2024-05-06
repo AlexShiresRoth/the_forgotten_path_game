@@ -16,11 +16,11 @@ class THEFORGOTTENPATH1_API UHero_Character_Widget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	// virtual void NativeConstruct() override;
+	virtual void NativeConstruct() override;
 
 	UFUNCTION(BlueprintCallable, Category = "Character Data")
 	void UpdateHealthUI(float HealthValue);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadonly, Category = "Character Data")
-	float Health = 10.f;
+	float Health = 15.f;
 };

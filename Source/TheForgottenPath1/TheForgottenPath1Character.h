@@ -70,6 +70,9 @@ public:
 
 	float CharacterCurrentHealth = 15.f;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character Data")
+	bool bIsDead = false;
+
 protected:
 	/** Called for movement input */
 	void Move(const FInputActionValue &Value);
