@@ -20,7 +20,15 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Character Data")
 	void UpdateHealthUI(float HealthValue);
+	UFUNCTION(BlueprintCallable, Category = "Character Data")
+	void UpdateDeathText(FString DeathTextValue);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadonly, Category = "Character Data")
 	float Health = 15.f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadonly, Category = "Character Data")
+	float MaxHealth = 15.f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadonly, Category = "Character Data")
+	FString DeathText = "You're Still Alive";
 };

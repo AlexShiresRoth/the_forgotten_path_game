@@ -73,6 +73,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character Data")
 	bool bIsDead = false;
 
+	void EnterRagdoll();
+
 protected:
 	/** Called for movement input */
 	void Move(const FInputActionValue &Value);

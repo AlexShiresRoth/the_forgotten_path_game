@@ -61,13 +61,17 @@ void AInteractable_Object::BeginPlay()
 
 void AInteractable_Object::OnActorBeginCursorOver(AActor *TouchedActor)
 {
-	if (TouchedActor == this && MeshComponent)
+	if (TouchedActor == nullptr || MeshComponent == nullptr)
 	{
-		// Apply outline material to mesh component
+		return;
+	}
+
+	if (TouchedActor == this)
+	{
+
 		ApplyOutlineMaterial();
 
-		// FString ObjectData = RetrieveObjectData();
-		if (MeshTitle != "" && MeshID > 0)
+		if (!MeshTitle.IsEmpty() && MeshID > 0)
 		{
 			ShowUIWidget();
 		}
@@ -85,6 +89,7 @@ void AInteractable_Object::OnActorEndCursorOver(AActor *TouchedActor)
 	}
 }
 
+// TODO: Remove player damage, just needed for testing
 void AInteractable_Object::OnMeshClicked(UPrimitiveComponent *ClickedComp, FKey ButtonClicked)
 {
 	ShowUIMenuWidget();

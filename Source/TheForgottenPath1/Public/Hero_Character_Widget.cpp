@@ -19,3 +19,8 @@ void UHero_Character_Widget::UpdateHealthUI(float HealthValue)
 {
     Health = HealthValue;
 }
+
+void UHero_Character_Widget::UpdateDeathText(FString DeathTextValue)
+{
+    DeathText = DeathTextValue;
+}

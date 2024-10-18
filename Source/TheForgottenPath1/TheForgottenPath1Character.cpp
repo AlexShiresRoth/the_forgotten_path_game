@@ -98,6 +98,19 @@ void ATheForgottenPath1Character::SetupPlayerInputComponent(UInputComponent *Pla
 	}
 }
 
+void ATheForgottenPath1Character::EnterRagdoll()
+{
+	GetCharacterMovement()->DisableMovement();
+
+	DetachFromControllerPendingDestroy();
+
+	if (USkeletalMeshComponent *SkelMesh = GetMesh())
+	{
+		SkelMesh->SetSimulatePhysics(true);
+		SkelMesh->SetCollisionProfileName(TEXT("Ragdoll"));
+	}
+}
+
 void ATheForgottenPath1Character::Move(const FInputActionValue &Value)
 {
 	// input is a Vector2D
@@ -180,6 +193,9 @@ float ATheForgottenPath1Character::SetCharacterCurrentHealth(float NewHealth)
 			{
 				bIsDead = true;
 				CharWidget->UpdateHealthUI(0.f);
+				CharWidget->UpdateDeathText("You've Died :(");
+
+				EnterRagdoll();
 				return 0.f;
 			}
 			CharWidget->UpdateHealthUI(CharacterCurrentHealth);
