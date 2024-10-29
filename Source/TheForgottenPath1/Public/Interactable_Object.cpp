@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Interactable_Object_Widget.h"
 #include "Interactable_Object_Menu_Widget.h"
+#include "TheForgottenPath1/TheForgottenPath1Character.h"
 
 // Sets default values
 AInteractable_Object::AInteractable_Object()
@@ -17,11 +18,15 @@ AInteractable_Object::AInteractable_Object()
 	OutlineMaterial = nullptr;
 }
 
+// Called every frame
+void AInteractable_Object::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+}
+
 void AInteractable_Object::BeginPlay()
 {
 	Super::BeginPlay();
-
-	GetMeshName();
 
 	// Get the mesh component
 	MeshComponent = FindComponentByClass<UStaticMeshComponent>();
@@ -54,24 +59,19 @@ void AInteractable_Object::BeginPlay()
 	OnEndCursorOver.AddDynamic(this, &AInteractable_Object::OnActorEndCursorOver);
 }
 
-void AInteractable_Object::GetMeshName()
-{
-	if (UStaticMeshComponent *Mesh = FindComponentByClass<UStaticMeshComponent>())
-	{
-		FString MeshName = Mesh->GetStaticMesh()->GetName();
-		UE_LOG(LogTemp, Warning, TEXT("Mesh is set to %s"), *MeshName);
-	}
-}
-
 void AInteractable_Object::OnActorBeginCursorOver(AActor *TouchedActor)
 {
-	if (TouchedActor == this && MeshComponent)
+	if (TouchedActor == nullptr || MeshComponent == nullptr)
 	{
-		// Apply outline material to mesh component
+		return;
+	}
+
+	if (TouchedActor == this)
+	{
+
 		ApplyOutlineMaterial();
 
-		// FString ObjectData = RetrieveObjectData();
-		if (MeshTitle != "" && MeshID > 0)
+		if (!MeshTitle.IsEmpty() && MeshID > 0)
 		{
 			ShowUIWidget();
 		}
@@ -89,9 +89,20 @@ void AInteractable_Object::OnActorEndCursorOver(AActor *TouchedActor)
 	}
 }
 
+// TODO: Remove player damage, just needed for testing
 void AInteractable_Object::OnMeshClicked(UPrimitiveComponent *ClickedComp, FKey ButtonClicked)
 {
 	ShowUIMenuWidget();
+
+	// get player character
+	ATheForgottenPath1Character *PlayerCharacter = Cast<ATheForgottenPath1Character>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+	if (PlayerCharacter)
+	{
+		// testplayer damage
+		float CurrentHealth = PlayerCharacter->GetCharacterCurrentHealth();
+		PlayerCharacter->SetCharacterCurrentHealth(CurrentHealth - 1.f);
+	}
 }
 
 void AInteractable_Object::ShowUIMenuWidget()
@@ -175,12 +186,6 @@ void AInteractable_Object::HideUIWidget()
 		// Reset the widget instance pointer
 		WidgetInstance = nullptr;
 	}
-}
-
-// Called every frame
-void AInteractable_Object::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 }
 
 UMaterialInterface *AInteractable_Object::CreateOutlineMaterial()

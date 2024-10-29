@@ -2,6 +2,7 @@
 
 #include "TheForgottenPath1Character.h"
 #include "Engine/LocalPlayer.h"
+#include "Blueprint/UserWidget.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -10,6 +11,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "Hero_Character_Widget.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -66,6 +68,8 @@ void ATheForgottenPath1Character::BeginPlay()
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
+		// Show widget that contains health and other things
+		ShowCharacterWidget();
 	}
 }
 
@@ -91,6 +95,19 @@ void ATheForgottenPath1Character::SetupPlayerInputComponent(UInputComponent *Pla
 	else
 	{
 		UE_LOG(LogTemplateCharacter, Error, TEXT("'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
+	}
+}
+
+void ATheForgottenPath1Character::EnterRagdoll()
+{
+	GetCharacterMovement()->DisableMovement();
+
+	DetachFromControllerPendingDestroy();
+
+	if (USkeletalMeshComponent *SkelMesh = GetMesh())
+	{
+		SkelMesh->SetSimulatePhysics(true);
+		SkelMesh->SetCollisionProfileName(TEXT("Ragdoll"));
 	}
 }
 
@@ -137,4 +154,52 @@ void ATheForgottenPath1Character::SetMouseCursorVisible(bool bVisible)
 	{
 		PlayerController->bShowMouseCursor = bVisible;
 	}
+}
+
+void ATheForgottenPath1Character::ShowCharacterWidget()
+{
+	if (CharacterWidgetClass)
+	{
+		CharacterWidgetInstance = CreateWidget<UHero_Character_Widget>(GetWorld(), CharacterWidgetClass);
+
+		if (CharacterWidgetInstance)
+		{
+			UHero_Character_Widget *CharacterWidget = Cast<UHero_Character_Widget>(CharacterWidgetInstance);
+
+			CharacterWidgetInstance->AddToViewport();
+		}
+	}
+}
+
+float ATheForgottenPath1Character::GetCharacterCurrentHealth()
+{
+	return CharacterCurrentHealth;
+}
+
+// This does update the ui but it's a little clunky. Refactor and fix it up
+// How to update the player once death
+float ATheForgottenPath1Character::SetCharacterCurrentHealth(float NewHealth)
+{
+	CharacterCurrentHealth = NewHealth;
+	if (CharacterWidgetInstance)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Character widget instance created"));
+
+		UHero_Character_Widget *CharWidget = Cast<UHero_Character_Widget>(CharacterWidgetInstance);
+
+		if (CharWidget)
+		{
+			if (CharacterCurrentHealth <= 0)
+			{
+				bIsDead = true;
+				CharWidget->UpdateHealthUI(0.f);
+				CharWidget->UpdateDeathText("You've Died :(");
+
+				EnterRagdoll();
+				return 0.f;
+			}
+			CharWidget->UpdateHealthUI(CharacterCurrentHealth);
+		}
+	}
+	return CharacterCurrentHealth;
 }

@@ -13,6 +13,8 @@ class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 
+class UHero_Character_Widget;
+
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
 UCLASS(config = Game)
@@ -49,6 +51,29 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Input)
 	void SetMouseCursorVisible(bool bVisible);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UHero_Character_Widget> CharacterWidgetClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	UHero_Character_Widget *CharacterWidgetInstance;
+
+	// set widget to viewport
+	UFUNCTION()
+	void ShowCharacterWidget();
+
+	UFUNCTION(BlueprintCallable, Category = "Character Data")
+	float GetCharacterCurrentHealth();
+
+	UFUNCTION()
+	float SetCharacterCurrentHealth(float NewHealth);
+
+	float CharacterCurrentHealth = 15.f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character Data")
+	bool bIsDead = false;
+
+	void EnterRagdoll();
 
 protected:
 	/** Called for movement input */
