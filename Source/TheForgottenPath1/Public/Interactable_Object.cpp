@@ -102,6 +102,7 @@ void AInteractable_Object::OnMeshClicked(UPrimitiveComponent *ClickedComp, FKey 
 		// testplayer damage
 		float CurrentHealth = PlayerCharacter->GetCharacterCurrentHealth();
 		PlayerCharacter->SetCharacterCurrentHealth(CurrentHealth - 1.f);
+		UE_LOG(LogTemp, Warning, TEXT("Player damaged %f"), CurrentHealth);
 	}
 }
 

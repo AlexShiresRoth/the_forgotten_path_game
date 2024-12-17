@@ -12,6 +12,8 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "Hero_Character_Widget.h"
+#include "Menu_Widget.h"
+#include "Inventory_Widget.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -91,6 +93,12 @@ void ATheForgottenPath1Character::SetupPlayerInputComponent(UInputComponent *Pla
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ATheForgottenPath1Character::Look);
+
+		// Main Menu
+		EnhancedInputComponent->BindAction(MainMenuAction, ETriggerEvent::Triggered, this, &ATheForgottenPath1Character::ToggleMainMenuWidget);
+
+		// Inventory
+		EnhancedInputComponent->BindAction(InventoryAction, ETriggerEvent::Triggered, this, &ATheForgottenPath1Character::ToggleInventoryWidget);
 	}
 	else
 	{
@@ -167,6 +175,67 @@ void ATheForgottenPath1Character::ShowCharacterWidget()
 			UHero_Character_Widget *CharacterWidget = Cast<UHero_Character_Widget>(CharacterWidgetInstance);
 
 			CharacterWidgetInstance->AddToViewport();
+		}
+	}
+}
+
+void ATheForgottenPath1Character::ToggleMainMenuWidget()
+{
+	if (!MainMenuWidgetClass)
+		return;
+
+	if (!MainMenuWidgetInstance)
+	{
+		// Create the widget if it doesn't exist
+		MainMenuWidgetInstance = CreateWidget<UMenu_Widget>(GetWorld(), MainMenuWidgetClass);
+
+		if (MainMenuWidgetInstance)
+		{
+			MainMenuWidgetInstance->AddToViewport();
+			UE_LOG(LogTemp, Log, TEXT("MainMenuWidgetInstance Widget Added to Viewport"));
+		}
+		return;
+	}
+	else
+	{
+		// Check if widget is visible and remove it
+		if (MainMenuWidgetInstance->IsInViewport())
+		{
+			MainMenuWidgetInstance->RemoveFromParent();
+			MainMenuWidgetInstance = nullptr; // Destroy instance
+			UE_LOG(LogTemp, Log, TEXT("MainMenuWidgetInstancey Widget Removed from Viewport"));
+			return;
+		}
+	}
+}
+
+void ATheForgottenPath1Character::ToggleInventoryWidget()
+{
+	if (!InventoryWidgetClass)
+		return;
+
+	// Check if the widget instance is already created
+	if (!InventoryWidgetInstance)
+	{
+		// Create the widget if it doesn't exist
+		InventoryWidgetInstance = CreateWidget<UInventory_Widget>(GetWorld(), InventoryWidgetClass);
+
+		if (InventoryWidgetInstance && !InventoryWidgetInstance->IsInViewport())
+		{
+			InventoryWidgetInstance->AddToViewport();
+			UE_LOG(LogTemp, Log, TEXT("Inventory Widget Added to Viewport"));
+		}
+		return;
+	}
+	else
+	{
+		// Check if widget is visible and remove it
+		if (InventoryWidgetInstance->IsInViewport())
+		{
+			InventoryWidgetInstance->RemoveFromParent();
+			InventoryWidgetInstance = nullptr; // Destroy instance
+			UE_LOG(LogTemp, Log, TEXT("Inventory Widget Removed from Viewport"));
+			return;
 		}
 	}
 }
