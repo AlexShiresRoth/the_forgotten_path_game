@@ -4,34 +4,32 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Interactable_Object_Widget.h"
 #include "Interactable_Object_Menu_Widget.generated.h"
 
 /**
- *
+ * A widget that displays information about an interactable object
+ * and allows interaction through UI elements like buttons.
  */
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCloseButtonClickedDelegate);
 
-class UInteractable_Object_Widget;
 UCLASS()
 class THEFORGOTTENPATH1_API UInteractable_Object_Menu_Widget : public UUserWidget
 {
 	GENERATED_BODY()
 
 public:
+	/** Called when the close button is clicked */
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	void HandleCloseButtonClicked();
 
+	/** Event triggered when the close button is clicked */
 	UPROPERTY(BlueprintAssignable, Category = "UI")
 	FOnCloseButtonClickedDelegate OnCloseButtonClicked;
 
-	UFUNCTION(BlueprintPure, Category = "Object Interaction")
-	FText GetObjectNameFromInteractableObject() const;
+	/** The name of the interactable object, shown in the UI */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Object Data")
+	FString ObjectName;
 
-	// UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Object Interaction")
-	// TSubclassOf<UInteractable_Object_Widget> InteractableObjectWidgetClass;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Object Interaction")
-	UInteractable_Object_Widget *InteractableObjectWidgetReference;
+	void SetCustomInteractableObjectData(FString ObjectTitle, int32 ObjectID);
 };

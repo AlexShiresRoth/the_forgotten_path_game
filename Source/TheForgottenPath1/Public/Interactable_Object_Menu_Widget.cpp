@@ -1,26 +1,20 @@
 #include "Interactable_Object_Menu_Widget.h"
-#include "Interactable_Object_Widget.h"
+#include "Interactable_Object.h"
 
 void UInteractable_Object_Menu_Widget::HandleCloseButtonClicked()
 {
     OnCloseButtonClicked.Broadcast();
 }
 
-FText UInteractable_Object_Menu_Widget::GetObjectNameFromInteractableObject() const
+void UInteractable_Object_Menu_Widget::SetCustomInteractableObjectData(FString ObjectTitle, int32 ObjectID)
 {
-    UInteractable_Object_Widget *InteractableObjectWidget = Cast<UInteractable_Object_Widget>(InteractableObjectWidgetReference);
-
-    if (InteractableObjectWidget)
+    if (ObjectTitle != "")
     {
-        FString ObjectName = InteractableObjectWidget->GetName();
-        UE_LOG(LogTemp, Warning, TEXT("Object Name: %s"), *ObjectName);
-        return FText::FromString(ObjectName);
+        UE_LOG(LogTemp, Warning, TEXT("Object Name: %s"), *ObjectTitle);
+        ObjectName = ObjectTitle;
     }
     else
     {
-        UE_LOG(LogTemp, Warning, TEXT("Cast failed, invalid reference"));
+        ObjectName = TEXT("Unknown Object");
     }
-
-    // Return a default text if the interactable object is null
-    return FText::FromString(TEXT("Unknown Object"));
 }

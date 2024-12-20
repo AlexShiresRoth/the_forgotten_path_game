@@ -17,6 +17,8 @@ public:
 	// Sets default values for this actor's properties
 	AInteractable_Object();
 
+	UUserWidget *GetWidgetInstance() const { return WidgetInstance; }
+
 	UFUNCTION()
 	void OnMenuWidgetClosed();
 

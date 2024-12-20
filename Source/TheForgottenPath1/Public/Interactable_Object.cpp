@@ -129,6 +129,7 @@ void AInteractable_Object::ShowUIMenuWidget()
 
 			if (MenuWidget)
 			{
+				MenuWidget->SetCustomInteractableObjectData(MeshTitle, MeshID);
 				MenuWidget->OnCloseButtonClicked.AddDynamic(this, &AInteractable_Object::OnMenuWidgetClosed);
 			}
 
@@ -158,11 +159,13 @@ void AInteractable_Object::ShowUIWidget()
 		// Check if the widget instance was created successfully
 		if (WidgetInstance)
 		{
+			// Set data on the hover menu widget
 			UInteractable_Object_Widget *Widget = Cast<UInteractable_Object_Widget>(WidgetInstance);
 			if (Widget)
 			{
 				Widget->SetCustomInteractableObjectData(MeshTitle, MeshID);
 			}
+
 			WidgetInstance->AddToViewport();
 
 			FVector MeshLocation = GetActorLocation();
