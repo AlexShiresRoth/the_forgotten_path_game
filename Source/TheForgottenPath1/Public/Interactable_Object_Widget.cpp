@@ -8,3 +8,13 @@ void UInteractable_Object_Widget::SetCustomInteractableObjectData(FString Object
         Name = ObjectTitle;
     }
 }
+
+FString UInteractable_Object_Widget::GetName()
+{
+    return Name;
+}
+
+FText UInteractable_Object_Widget::PrintName()
+{
+    return FText::FromString(Name);
+}

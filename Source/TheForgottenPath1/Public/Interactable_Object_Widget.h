@@ -18,5 +18,10 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadonly, Category = "Object Data")
 	FString Name;
 
+	UFUNCTION(BlueprintCallable, Category = "Object Data")
+	FText PrintName();
+
 	void SetCustomInteractableObjectData(FString ObjectTitle, int32 ObjectID);
+
+	FString GetName();
 };

@@ -31,55 +31,59 @@ void AInteractable_Object::BeginPlay()
 	// Get the mesh component
 	MeshComponent = FindComponentByClass<UStaticMeshComponent>();
 
-	// Store the mesh component reference and base material
-	if (MeshComponent)
-	{
-		BaseMaterial = MeshComponent->GetMaterial(0);
-
-		// Make sure BaseMaterial exists before proceeding
-		if (BaseMaterial)
-		{
-			// Create outline material
-			OutlineMaterial = CreateOutlineMaterial();
-
-			if (OutlineMaterial == nullptr)
-			{
-				UE_LOG(LogTemp, Warning, TEXT("Failed to create outline material"));
-			}
-		}
-
-		MeshComponent->OnClicked.AddDynamic(this, &AInteractable_Object::OnMeshClicked);
-	}
-	else
+	if (!MeshComponent)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("MeshComponent is not valid"));
+		return;
 	}
 
-	OnBeginCursorOver.AddDynamic(this, &AInteractable_Object::OnActorBeginCursorOver);
-	OnEndCursorOver.AddDynamic(this, &AInteractable_Object::OnActorEndCursorOver);
+	BaseMaterial = MeshComponent->GetMaterial(0);
+	if (!BaseMaterial)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("BaseMaterial is not valid"));
+	}
+
+	OutlineMaterial = CreateOutlineMaterial();
+	if (!OutlineMaterial)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Failed to create outline material"));
+	}
+
+	MeshComponent->OnClicked.AddDynamic(this, &AInteractable_Object::OnMeshClicked);
+
+	if (!OnBeginCursorOver.IsBound())
+	{
+		OnBeginCursorOver.AddDynamic(this, &AInteractable_Object::OnActorBeginCursorOver);
+	}
+
+	if (!OnEndCursorOver.IsBound())
+	{
+		OnEndCursorOver.AddDynamic(this, &AInteractable_Object::OnActorEndCursorOver);
+	}
 }
 
 void AInteractable_Object::OnActorBeginCursorOver(AActor *TouchedActor)
 {
-	if (TouchedActor == nullptr || MeshComponent == nullptr)
+	if (!TouchedActor || !MeshComponent || TouchedActor != this)
 	{
 		return;
 	}
 
-	if (TouchedActor == this)
+	ApplyOutlineMaterial();
+
+	if (!MeshTitle.IsEmpty() && MeshID > 0)
 	{
-
-		ApplyOutlineMaterial();
-
-		if (!MeshTitle.IsEmpty() && MeshID > 0)
-		{
-			ShowUIWidget();
-		}
+		ShowUIWidget();
 	}
 }
 
 void AInteractable_Object::OnActorEndCursorOver(AActor *TouchedActor)
 {
+	if (TouchedActor != this || !MeshComponent)
+	{
+		return;
+	}
+
 	if (TouchedActor == this && MeshComponent)
 	{
 		// Revert material on mesh component
