@@ -186,7 +186,7 @@ void AInteractable_Object::ShowUIWidget()
 
 void AInteractable_Object::HideUIWidget()
 {
-	if (WidgetInstance)
+	if (WidgetInstance && WidgetInstance != nullptr)
 	{
 		// Remove the widget from the viewport
 		WidgetInstance->RemoveFromParent();

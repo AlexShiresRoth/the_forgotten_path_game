@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "InventoryItem.h"
 #include "Interactable_Object.generated.h"
 
 class UUserWidget;
-
+class UInventoryItem;
 UCLASS()
 class THEFORGOTTENPATH1_API AInteractable_Object : public AActor
 {
@@ -28,9 +29,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Object Metadata")
 	int32 MeshID;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Object Metadata")
+	TArray<UInventoryItem *> Items;
+
 protected:
 	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	virtual void
+	BeginPlay() override;
 
 	UFUNCTION()
 	void OnActorBeginCursorOver(AActor *TouchedActor);
