@@ -91,6 +91,10 @@ void ATheForgottenPath1Character::SetupPlayerInputComponent(UInputComponent *Pla
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ATheForgottenPath1Character::Look);
+		// Inventory
+		EnhancedInputComponent->BindAction(InventoryAction, ETriggerEvent::Triggered, this, &ATheForgottenPath1Character::ToggleInventoryWidget);
+		// Main Menu
+		EnhancedInputComponent->BindAction(MainMenuAction, ETriggerEvent::Triggered, this, &ATheForgottenPath1Character::ToggleMainMenuWidget);
 	}
 	else
 	{
