@@ -27,7 +27,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Object Metadata")
 	int32 MeshID;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Object Metadata", Transient)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Object Metadata")
 	TArray<AInventoryItem *> InventoryItemsList;
 
 protected:
