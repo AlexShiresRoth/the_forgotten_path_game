@@ -12,8 +12,9 @@
  * and allows interaction through UI elements like buttons.
  */
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCloseButtonClickedDelegate);
 class AItem;
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCloseButtonClickedDelegate);
+
 UCLASS()
 class THEFORGOTTENPATH1_API UInteractable_Object_Menu_Widget : public UUserWidget
 {

@@ -37,19 +37,16 @@ void UInteractable_Object_Menu_Widget::RenderItemsList()
 {
     if (ItemsList.Num() > 0)
     {
-        for (int32 i = 0; i < ItemsList.Num(); i++)
+        for (AItem *Item : ItemsList)
         {
-            // Spawn the instance of the item class (if not already spawned)
-            AItem *ItemInstance = ItemsList[i];
 
-            if (ItemInstance)
+            if (Item)
             {
-                UE_LOG(LogTemp, Warning, TEXT("Item Name: %s"), *ItemInstance->ItemName);
-                UE_LOG(LogTemp, Warning, TEXT("Item ID: %d"), ItemInstance->ItemID);
-                UE_LOG(LogTemp, Warning, TEXT("Item Icon: %s"), *ItemInstance->Image->GetName());
+                UE_LOG(LogTemp, Warning, TEXT("Item Name: %s"), *Item->ItemName);
+                UE_LOG(LogTemp, Warning, TEXT("Item ID: %d"), Item->ItemID);
 
                 // Optionally, destroy the instance if not needed
-                ItemInstance->Destroy();
+                // ItemInstance->Destroy();
             }
         }
     }
