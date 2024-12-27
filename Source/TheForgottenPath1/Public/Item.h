@@ -25,6 +25,9 @@ public:
 	int Quantity;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
+	int32 ItemID;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 	UTexture2D *Image;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")

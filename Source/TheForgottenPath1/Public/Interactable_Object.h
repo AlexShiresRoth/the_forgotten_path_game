@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "InventoryItem.h"
+#include "Item.h"
 #include "Interactable_Object.generated.h"
 
 class UUserWidget;
-class UInventoryItem;
+class AItem;
 UCLASS()
 class THEFORGOTTENPATH1_API AInteractable_Object : public AActor
 {
@@ -30,7 +30,7 @@ public:
 	int32 MeshID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Object Metadata")
-	TArray<UInventoryItem *> Items;
+	TArray<AItem *> InventoryItemsList;
 
 protected:
 	// Called when the game starts or when spawned

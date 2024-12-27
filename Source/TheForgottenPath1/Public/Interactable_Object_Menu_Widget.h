@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Item.h"
 #include "Interactable_Object_Menu_Widget.generated.h"
 
 /**
@@ -12,7 +13,7 @@
  */
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCloseButtonClickedDelegate);
-
+class AItem;
 UCLASS()
 class THEFORGOTTENPATH1_API UInteractable_Object_Menu_Widget : public UUserWidget
 {
@@ -30,6 +31,13 @@ public:
 	/** The name of the interactable object, shown in the UI */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Object Data")
 	FString ObjectName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Object Data")
+	TArray<AItem *> ItemsList;
+
+	void RenderItemsList();
+
+	void SetCustomInventoryItemsList(TArray<AItem *> InventoryItemsList);
 
 	void SetCustomInteractableObjectData(FString ObjectTitle, int32 ObjectID);
 };

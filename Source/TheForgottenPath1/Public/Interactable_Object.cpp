@@ -110,6 +110,7 @@ void AInteractable_Object::OnMeshClicked(UPrimitiveComponent *ClickedComp, FKey 
 	}
 }
 
+// TODO: Refactor this function, break out into smaller functions
 void AInteractable_Object::ShowUIMenuWidget()
 {
 	if (MenuWidgetInstance)
@@ -130,7 +131,15 @@ void AInteractable_Object::ShowUIMenuWidget()
 			if (MenuWidget)
 			{
 				MenuWidget->SetCustomInteractableObjectData(MeshTitle, MeshID);
+
 				MenuWidget->OnCloseButtonClicked.AddDynamic(this, &AInteractable_Object::OnMenuWidgetClosed);
+
+				// Render the items list if there are any
+
+				if (InventoryItemsList.Num() > 0)
+				{
+					MenuWidget->SetCustomInventoryItemsList(InventoryItemsList);
+				}
 			}
 
 			MenuWidgetInstance->AddToViewport();
