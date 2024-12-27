@@ -23,4 +23,12 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "UI")
 	FOnCloseButtonClickedDelegate OnCloseButtonClicked;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Object Data")
+	FString ObjectName;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Object Data")
+	int32 ObjectID;
+
+	void SetCustomObjectData(FString Title, int32 ID);
 };

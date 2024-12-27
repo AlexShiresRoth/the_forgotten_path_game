@@ -124,6 +124,7 @@ void AInteractable_Object::ShowUIMenuWidget()
 
 			if (MenuWidget)
 			{
+				MenuWidget->SetCustomObjectData(MeshTitle, MeshID);
 				MenuWidget->OnCloseButtonClicked.AddDynamic(this, &AInteractable_Object::OnMenuWidgetClosed);
 			}
 
