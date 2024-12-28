@@ -3,18 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
-#include "InventoryItem.generated.h"
+#include "Blueprint/UserWidget.h"
+#include "InventoryItemWidget.generated.h"
 
-UCLASS(Blueprintable, BlueprintType)
-class THEFORGOTTENPATH1_API AInventoryItem : public AActor
+/**
+ *
+ */
+UCLASS()
+class THEFORGOTTENPATH1_API UInventoryItemWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
+	// TODO this needs to match inventory item
 public:
-	// Sets default values for this actor's properties
-	AInventoryItem();
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Data")
 	FString ItemName;
 
@@ -27,11 +28,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Data")
 	UTexture2D *ItemImage;
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	UFUNCTION(BlueprintCallable, Category = "Item Data")
+	void SetItemData(FString Name, int Quantity, int32 ID, UTexture2D *Image);
 };

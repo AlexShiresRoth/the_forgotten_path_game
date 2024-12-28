@@ -11,6 +11,7 @@ AInventoryItem::AInventoryItem()
 	ItemName = "Not Defined";
 	ItemID = 1;
 	ItemQuantity = 1;
+	ItemImage = nullptr;
 }
 
 // Called when the game starts or when spawned
