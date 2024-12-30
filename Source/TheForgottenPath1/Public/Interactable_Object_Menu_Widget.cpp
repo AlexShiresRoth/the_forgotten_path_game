@@ -29,8 +29,6 @@ void UInteractable_Object_Menu_Widget::PopulateGridPanel()
         {
             ItemWidget->SetItemData(ItemsList[Index]->ItemName, ItemsList[Index]->ItemQuantity, ItemsList[Index]->ItemID, ItemsList[Index]->ItemImage);
 
-            UE_LOG(LogTemp, Warning, TEXT("Item Name: %s"), *ItemWidget->ItemName);
-
             if (ItemsGrid)
             {
                 UGridSlot *GridSlot = ItemsGrid->AddChildToGrid(ItemWidget);
@@ -68,14 +66,6 @@ void UInteractable_Object_Menu_Widget::SetCustomInventoryItemsList(TArray<AInven
 {
     if (InventoryItemsList.Num() > 0)
     {
-        UE_LOG(LogTemp, Warning, TEXT("Inventory Items List: %d"), InventoryItemsList.Num());
         ItemsList = InventoryItemsList;
-
-        for (AInventoryItem *Item : ItemsList)
-        {
-            UE_LOG(LogTemp, Warning, TEXT("Inventory Item Name: %s"), *Item->ItemName);
-            UE_LOG(LogTemp, Warning, TEXT("Inventory Item ID: %d"), Item->ItemID);
-            UE_LOG(LogTemp, Warning, TEXT("Inventory Item Quantity: %d"), Item->ItemQuantity);
-        }
     }
 }

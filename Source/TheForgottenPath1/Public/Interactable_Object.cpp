@@ -55,14 +55,18 @@ void AInteractable_Object::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("MeshComponent is not valid"));
 	}
 
-	OnBeginCursorOver.AddDynamic(this, &AInteractable_Object::OnActorBeginCursorOver);
+	if (this && !OnBeginCursorOver.IsBound())
+	{
+		OnBeginCursorOver.AddDynamic(this, &AInteractable_Object::OnActorBeginCursorOver);
+	}
 	OnEndCursorOver.AddDynamic(this, &AInteractable_Object::OnActorEndCursorOver);
 }
 
 void AInteractable_Object::OnActorBeginCursorOver(AActor *TouchedActor)
 {
-	if (TouchedActor == nullptr || MeshComponent == nullptr)
+	if (TouchedActor == nullptr || MeshComponent == nullptr || BaseMaterial == nullptr)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("TouchedActor or MeshComponent or BaseMaterial is null"));
 		return;
 	}
 
@@ -219,6 +223,18 @@ UMaterialInterface *AInteractable_Object::CreateOutlineMaterial()
 
 void AInteractable_Object::ApplyOutlineMaterial()
 {
+	if (MeshComponent == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("MeshComponent is null"));
+		return;
+	}
+
+	if (OutlineMaterial == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("OutlineMaterial is null"));
+		return;
+	}
+
 	if (OutlineMaterial && MeshComponent)
 	{
 		MeshComponent->SetMaterial(0, OutlineMaterial);
