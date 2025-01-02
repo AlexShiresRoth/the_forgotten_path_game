@@ -16,3 +16,26 @@ void UInventoryItemWidget::SetItemData(FString Name, int Quantity, int32 ID, UTe
     ItemID = ID;
     ItemImage = Image;
 }
+
+void UInventoryItemWidget::RenderHoverWidget()
+{
+    if (ItemMenuWidgetClass)
+    {
+        ItemMenuWidgetInstance = CreateWidget<UInventoryItemMenuWidget>(GetWorld(), ItemMenuWidgetClass);
+
+        UE_LOG(LogTemp, Warning, TEXT("Is this bveing called?"));
+
+        if (ItemMenuWidgetInstance)
+        {
+            ItemMenuWidgetInstance->SetMenuData(ItemName);
+
+            ItemMenuWidgetInstance->AddToViewport();
+
+            UE_LOG(LogTemp, Warning, TEXT("This should work?"));
+        }
+        else
+        {
+            UE_LOG(LogTemp, Warning, TEXT("Hover menu instance is invalid"))
+        }
+    }
+}

@@ -92,6 +92,7 @@ void AInteractable_Object::OnActorEndCursorOver(AActor *TouchedActor)
 		HideUIWidget();
 	}
 }
+// TODO around here is causing the error!!
 
 // TODO: Remove player damage, just needed for testing
 void AInteractable_Object::OnMeshClicked(UPrimitiveComponent *ClickedComp, FKey ButtonClicked)
