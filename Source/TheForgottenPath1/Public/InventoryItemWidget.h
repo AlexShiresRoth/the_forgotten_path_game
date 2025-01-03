@@ -5,18 +5,20 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
+#include "InventoryItem.h"
 #include "InventoryItemMenuWidget.h"
 #include "InventoryItemWidget.generated.h"
 
 /**
  *
  */
+class UInteractable_Object_Menu_Widget;
+
 UCLASS()
 class THEFORGOTTENPATH1_API UInventoryItemWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
-	// TODO this needs to match inventory item
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Data")
 	FString ItemName;
@@ -31,14 +33,24 @@ public:
 	UTexture2D *ItemImage;
 
 	UFUNCTION(BlueprintCallable, Category = "Item Data")
-	void SetItemData(FString Name, int Quantity, int32 ID, UTexture2D *Image);
+	void SetItemData(AInventoryItem *Item);
 
-	// TODO need to remove widget from view
 	UFUNCTION(BlueprintCallable, Category = "Item Data")
 	void RenderHoverWidget();
+
+	UFUNCTION(BlueprintCallable, Category = "Item Data")
+	void RemoveHoverWidget();
+
+	UFUNCTION(BlueprintCallable, Category = "Item Data")
+	void RemoveItemFromList(UInventoryItemWidget *ItemWidget);
 
 	UPROPERTY(EditAnywhere, Category = "Item Data")
 	TSubclassOf<class UInventoryItemMenuWidget> ItemMenuWidgetClass;
 
 	UInventoryItemMenuWidget *ItemMenuWidgetInstance;
+
+	// this is instantiated in the class on widget item creation
+	UInteractable_Object_Menu_Widget *InteractableObjectMenuWidgetClass;
+
+	void SetMenuWidgetReference(UInteractable_Object_Menu_Widget *MenuWidget);
 };

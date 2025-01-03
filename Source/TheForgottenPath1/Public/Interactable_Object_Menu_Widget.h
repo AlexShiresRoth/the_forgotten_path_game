@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "InventoryItem.h"
-#include "InventoryItemWidget.h"
 #include "Components/GridPanel.h"
 #include "Interactable_Object_Menu_Widget.generated.h"
 
@@ -42,6 +41,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory UI", meta = (BindWidget))
 	class UGridPanel *ItemsGrid;
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory UI")
+	void RemoveItemFromList(UInventoryItemWidget *ItemWidget);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory UI")
 	int MaxColumns = 5;

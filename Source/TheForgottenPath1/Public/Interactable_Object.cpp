@@ -72,8 +72,8 @@ void AInteractable_Object::OnActorBeginCursorOver(AActor *TouchedActor)
 
 	if (TouchedActor == this)
 	{
-
-		ApplyOutlineMaterial();
+		// TODO: I think this is causing the error
+		// ApplyOutlineMaterial();
 
 		if (!MeshTitle.IsEmpty() && MeshID > 0)
 		{
@@ -84,10 +84,10 @@ void AInteractable_Object::OnActorBeginCursorOver(AActor *TouchedActor)
 
 void AInteractable_Object::OnActorEndCursorOver(AActor *TouchedActor)
 {
-	if (TouchedActor == this && MeshComponent)
+	if (TouchedActor == this && MeshComponent != nullptr)
 	{
 		// Revert material on mesh component
-		RevertMaterial();
+		// RevertMaterial();
 
 		HideUIWidget();
 	}

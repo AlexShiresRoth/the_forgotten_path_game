@@ -9,6 +9,16 @@ void UInteractable_Object_Menu_Widget::HandleCloseButtonClicked()
     OnCloseButtonClicked.Broadcast();
 }
 
+// TODO
+void UInteractable_Object_Menu_Widget::RemoveItemFromList(UInventoryItemWidget *ItemWidget)
+{
+
+    if (ItemWidget)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("ItemWidget passed to interactable object is not null %s"), *ItemWidget->ItemName);
+    }
+}
+
 void UInteractable_Object_Menu_Widget::PopulateGridPanel()
 {
 
@@ -27,7 +37,9 @@ void UInteractable_Object_Menu_Widget::PopulateGridPanel()
 
         if (ItemWidget)
         {
-            ItemWidget->SetItemData(ItemsList[Index]->ItemName, ItemsList[Index]->ItemQuantity, ItemsList[Index]->ItemID, ItemsList[Index]->ItemImage);
+            ItemWidget->SetItemData(ItemsList[Index]);
+            // this is needed so we can refer back to this class to remove items
+            ItemWidget->SetMenuWidgetReference(this);
 
             if (ItemsGrid)
             {
