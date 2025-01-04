@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Interactable_Object_Widget.h"
 #include "Interactable_Object_Menu_Widget.h"
+#include "InventoryItem.h"
 #include "TheForgottenPath1/TheForgottenPath1Character.h"
 
 // Sets default values
@@ -131,6 +132,7 @@ void AInteractable_Object::ShowUIMenuWidget()
 			{
 				MenuWidget->SetCustomObjectData(MeshTitle, MeshID);
 				MenuWidget->SetCustomInventoryItemsList(InventoryItemsList);
+				MenuWidget->SetInteractableObjectInstance(this);
 				MenuWidget->OnCloseButtonClicked.AddDynamic(this, &AInteractable_Object::OnMenuWidgetClosed);
 			}
 
@@ -195,6 +197,22 @@ void AInteractable_Object::HideUIWidget()
 	}
 }
 
+void AInteractable_Object::RemoveItemFromObjectList(AInventoryItem *Item)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Interactable Object name: %s"), *this->GetName());
+
+	if (InventoryItemsList.Contains(Item))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Item %s is in the list"), *Item->ItemName);
+		InventoryItemsList.Remove(Item); // Removes the item from the array
+		UE_LOG(LogTemp, Warning, TEXT("Item %s has been removed"), *Item->ItemName);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Item %s is not in the list"), *Item->ItemName);
+	}
+}
+
 UMaterialInterface *AInteractable_Object::CreateOutlineMaterial()
 {
 	if (BaseMaterial)
@@ -224,19 +242,12 @@ UMaterialInterface *AInteractable_Object::CreateOutlineMaterial()
 
 void AInteractable_Object::ApplyOutlineMaterial()
 {
-	if (MeshComponent == nullptr)
+	if (MeshComponent == nullptr || OutlineMaterial == nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("MeshComponent is null"));
+		UE_LOG(LogTemp, Warning, TEXT("MeshComponent or OutlineMaterial is null"));
 		return;
 	}
-
-	if (OutlineMaterial == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("OutlineMaterial is null"));
-		return;
-	}
-
-	if (OutlineMaterial && MeshComponent)
+	else
 	{
 		MeshComponent->SetMaterial(0, OutlineMaterial);
 	}

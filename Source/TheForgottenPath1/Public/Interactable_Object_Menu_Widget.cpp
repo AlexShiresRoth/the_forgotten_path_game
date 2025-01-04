@@ -2,6 +2,7 @@
 #include "InventoryItemWidget.h"
 #include "Components/GridSlot.h"
 #include "Components/SizeBox.h"
+#include "Interactable_Object.h"
 #include "InventoryItem.h"
 
 void UInteractable_Object_Menu_Widget::HandleCloseButtonClicked()
@@ -9,13 +10,25 @@ void UInteractable_Object_Menu_Widget::HandleCloseButtonClicked()
     OnCloseButtonClicked.Broadcast();
 }
 
-// TODO
+// This wil remove items from both the widget and the original list on interactable object
 void UInteractable_Object_Menu_Widget::RemoveItemFromList(UInventoryItemWidget *ItemWidget)
 {
-
     if (ItemWidget)
     {
-        UE_LOG(LogTemp, Warning, TEXT("ItemWidget passed to interactable object is not null %s"), *ItemWidget->ItemName);
+        for (AInventoryItem *Item : ItemsList)
+        {
+            if (Item->ItemID == ItemWidget->ItemID)
+            {
+                if (InteractableObjectInstance)
+                {
+                    InteractableObjectInstance->RemoveItemFromObjectList(Item);
+                    ItemsList.Remove(Item);
+                    ItemWidget->DestroyWidget();
+                }
+
+                break;
+            }
+        }
     }
 }
 
@@ -79,5 +92,13 @@ void UInteractable_Object_Menu_Widget::SetCustomInventoryItemsList(TArray<AInven
     if (InventoryItemsList.Num() > 0)
     {
         ItemsList = InventoryItemsList;
+    }
+}
+
+void UInteractable_Object_Menu_Widget::SetInteractableObjectInstance(AInteractable_Object *ObjectInstance)
+{
+    if (ObjectInstance)
+    {
+        this->InteractableObjectInstance = ObjectInstance;
     }
 }

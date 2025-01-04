@@ -53,4 +53,6 @@ public:
 	UInteractable_Object_Menu_Widget *InteractableObjectMenuWidgetClass;
 
 	void SetMenuWidgetReference(UInteractable_Object_Menu_Widget *MenuWidget);
+
+	void DestroyWidget();
 };

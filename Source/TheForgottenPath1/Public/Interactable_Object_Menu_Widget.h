@@ -9,12 +9,13 @@
 #include "Interactable_Object_Menu_Widget.generated.h"
 
 /**
- *
+ * This is the menu that shows when a player clicks on an interactable object
  */
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnCloseButtonClickedDelegate);
 class AInventoryItem;
 class UInventoryItemWidget;
+class AInteractable_Object;
 UCLASS()
 class THEFORGOTTENPATH1_API UInteractable_Object_Menu_Widget : public UUserWidget
 {
@@ -39,6 +40,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Inventory UI")
 	TSubclassOf<UInventoryItemWidget> InventoryItemWidgetClass;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory UI")
+	AInteractable_Object *InteractableObjectInstance;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory UI", meta = (BindWidget))
 	class UGridPanel *ItemsGrid;
 
@@ -54,4 +58,6 @@ public:
 	void SetCustomObjectData(FString Title, int32 ID);
 
 	void SetCustomInventoryItemsList(TArray<AInventoryItem *> InventoryItemsList);
+
+	void SetInteractableObjectInstance(AInteractable_Object *ObjectInstance);
 };

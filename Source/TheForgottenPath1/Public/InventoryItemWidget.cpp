@@ -55,8 +55,6 @@ void UInventoryItemWidget::RemoveItemFromList(UInventoryItemWidget *ItemWidget)
 
         if (InteractableObjectMenuWidgetClass)
         {
-            UE_LOG(LogTemp, Warning, TEXT("InteractableObjectMenuWidgetClass is not null %s"), *InteractableObjectMenuWidgetClass->ObjectName);
-
             InteractableObjectMenuWidgetClass->RemoveItemFromList(ItemWidget);
         }
     }
@@ -72,4 +70,9 @@ void UInventoryItemWidget::SetMenuWidgetReference(UInteractable_Object_Menu_Widg
     {
         InteractableObjectMenuWidgetClass = MenuWidget;
     }
+}
+
+void UInventoryItemWidget::DestroyWidget()
+{
+    this->RemoveFromViewport();
 }
