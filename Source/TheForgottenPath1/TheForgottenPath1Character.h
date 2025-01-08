@@ -16,8 +16,29 @@ struct FInputActionValue;
 class UHero_Character_Widget;
 class UMenu_Widget;
 class UInventory_Widget;
+class AInventoryItem;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
+
+USTRUCT(BlueprintType)
+struct FPlayerCharacterInventoryState
+{
+	GENERATED_BODY()
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory State")
+	TArray<AInventoryItem *> InventoryItemsList;
+
+	UPROPERTY(BlueprintReadWrite, Category = "State")
+	bool bHasBeenInteractedWith = false;
+
+	UPROPERTY(BlueprintReadWrite, Category = "State")
+	int32 TimesAccessed = 0;
+
+	FPlayerCharacterInventoryState()
+		: bHasBeenInteractedWith(false), TimesAccessed(0)
+	{
+	}
+};
 
 UCLASS(config = Game)
 class ATheForgottenPath1Character : public ACharacter
@@ -96,6 +117,9 @@ public:
 	UFUNCTION()
 	float SetCharacterCurrentHealth(float NewHealth);
 
+	UFUNCTION()
+	void AddItemToInventory(AInventoryItem *Item);
+
 	float CharacterCurrentHealth = 15.f;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character Data")
@@ -122,4 +146,8 @@ public:
 	FORCEINLINE class USpringArmComponent *GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent *GetFollowCamera() const { return FollowCamera; }
+
+private:
+	UPROPERTY(VisibleAnywhere, Category = "Inventory State")
+	FPlayerCharacterInventoryState InventoryState;
 };

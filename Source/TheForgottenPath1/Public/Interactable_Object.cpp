@@ -197,15 +197,18 @@ void AInteractable_Object::HideUIWidget()
 	}
 }
 
+// Remove the item from the object's item list and add it to the player's inventory
 void AInteractable_Object::RemoveItemFromObjectList(AInventoryItem *Item)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Interactable Object name: %s"), *this->GetName());
-
 	if (InventoryItemsList.Contains(Item))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Item %s is in the list"), *Item->ItemName);
-		InventoryItemsList.Remove(Item); // Removes the item from the array
-		UE_LOG(LogTemp, Warning, TEXT("Item %s has been removed"), *Item->ItemName);
+		ATheForgottenPath1Character *PlayerCharacter = Cast<ATheForgottenPath1Character>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+		if (PlayerCharacter)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Player character: %s"), *PlayerCharacter->GetName());
+			PlayerCharacter->AddItemToInventory(Item);
+			InventoryItemsList.Remove(Item);
+		}
 	}
 	else
 	{

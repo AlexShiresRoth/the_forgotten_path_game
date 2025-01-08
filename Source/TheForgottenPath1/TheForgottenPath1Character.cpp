@@ -13,6 +13,7 @@
 #include "InputActionValue.h"
 #include "Hero_Character_Widget.h"
 #include "Menu_Widget.h"
+#include "InventoryItem.h"
 #include "Inventory_Widget.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
@@ -223,6 +224,7 @@ void ATheForgottenPath1Character::ToggleInventoryWidget()
 		if (InventoryWidgetInstance && !InventoryWidgetInstance->IsInViewport())
 		{
 			InventoryWidgetInstance->AddToViewport();
+			InventoryWidgetInstance->SetInventoryItemsList(InventoryState.InventoryItemsList);
 			UE_LOG(LogTemp, Log, TEXT("Inventory Widget Added to Viewport"));
 		}
 		return;
@@ -271,4 +273,12 @@ float ATheForgottenPath1Character::SetCharacterCurrentHealth(float NewHealth)
 		}
 	}
 	return CharacterCurrentHealth;
+}
+
+void ATheForgottenPath1Character::AddItemToInventory(AInventoryItem *Item)
+{
+	if (Item)
+	{
+		InventoryState.InventoryItemsList.Add(Item);
+	}
 }

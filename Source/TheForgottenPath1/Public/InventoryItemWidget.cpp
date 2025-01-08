@@ -42,7 +42,7 @@ void UInventoryItemWidget::RemoveHoverWidget()
 {
     if (ItemMenuWidgetInstance)
     {
-        ItemMenuWidgetInstance->RemoveFromViewport();
+        ItemMenuWidgetInstance->RemoveFromParent();
         ItemMenuWidgetInstance = nullptr;
     }
 }
@@ -74,5 +74,5 @@ void UInventoryItemWidget::SetMenuWidgetReference(UInteractable_Object_Menu_Widg
 
 void UInventoryItemWidget::DestroyWidget()
 {
-    this->RemoveFromViewport();
+    this->RemoveFromParent();
 }

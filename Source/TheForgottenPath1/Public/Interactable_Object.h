@@ -20,7 +20,6 @@ struct FInteractableObjectState
 	UPROPERTY(BlueprintReadWrite, Category = "State")
 	TArray<FName> RemovedItemIDs;
 
-	// Example of additional state properties
 	UPROPERTY(BlueprintReadWrite, Category = "State")
 	bool bHasBeenInteractedWith = false;
 
