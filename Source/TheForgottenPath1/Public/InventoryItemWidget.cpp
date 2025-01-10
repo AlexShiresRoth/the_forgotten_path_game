@@ -72,6 +72,14 @@ void UInventoryItemWidget::SetMenuWidgetReference(UInteractable_Object_Menu_Widg
     }
 }
 
+void UInventoryItemWidget::SetInventoryWidgetReference(UInventory_Widget *InventoryWidget)
+{
+    if (InventoryWidget)
+    {
+        InventoryWidgetClass = InventoryWidget;
+    }
+}
+
 void UInventoryItemWidget::DestroyWidget()
 {
     this->RemoveFromParent();

@@ -13,7 +13,7 @@
  *
  */
 class UInteractable_Object_Menu_Widget;
-
+class UInventory_Widget;
 UCLASS()
 class THEFORGOTTENPATH1_API UInventoryItemWidget : public UUserWidget
 {
@@ -52,7 +52,11 @@ public:
 	// this is instantiated in the class on widget item creation
 	UInteractable_Object_Menu_Widget *InteractableObjectMenuWidgetClass;
 
+	UInventory_Widget *InventoryWidgetClass;
+
 	void SetMenuWidgetReference(UInteractable_Object_Menu_Widget *MenuWidget);
+
+	void SetInventoryWidgetReference(UInventory_Widget *InventoryWidget);
 
 	void DestroyWidget();
 };

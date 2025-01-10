@@ -11,7 +11,7 @@
  *
  */
 class AInventoryItem;
-
+class UInventoryItemWidget;
 USTRUCT(BlueprintType)
 struct FInventoryWidgetState
 {
@@ -39,6 +39,12 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory UI", meta = (BindWidget))
 	class UGridPanel *ItemsGrid;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory UI")
+	int MaxColumns = 5;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory UI")
+	TSubclassOf<UInventoryItemWidget> InventoryItemWidgetClass;
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Inventory State")
