@@ -14,8 +14,31 @@ class UInputAction;
 struct FInputActionValue;
 
 class UHero_Character_Widget;
+class UMenu_Widget;
+class UInventory_Widget;
+class AInventoryItem;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
+
+USTRUCT(BlueprintType)
+struct FPlayerCharacterInventoryState
+{
+	GENERATED_BODY()
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory State")
+	TArray<AInventoryItem *> InventoryItemsList;
+
+	UPROPERTY(BlueprintReadWrite, Category = "State")
+	bool bHasBeenInteractedWith = false;
+
+	UPROPERTY(BlueprintReadWrite, Category = "State")
+	int32 TimesAccessed = 0;
+
+	FPlayerCharacterInventoryState()
+		: bHasBeenInteractedWith(false), TimesAccessed(0)
+	{
+	}
+};
 
 UCLASS(config = Game)
 class ATheForgottenPath1Character : public ACharacter
@@ -46,6 +69,14 @@ class ATheForgottenPath1Character : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction *LookAction;
 
+	/** Main Menu Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction *MainMenuAction;
+
+	/** Inventory Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction *InventoryAction;
+
 public:
 	ATheForgottenPath1Character();
 
@@ -58,15 +89,36 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
 	UHero_Character_Widget *CharacterWidgetInstance;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UMenu_Widget> MainMenuWidgetClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	UMenu_Widget *MainMenuWidgetInstance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UInventory_Widget> InventoryWidgetClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+	UInventory_Widget *InventoryWidgetInstance;
+
 	// set widget to viewport
 	UFUNCTION()
 	void ShowCharacterWidget();
+
+	UFUNCTION()
+	void ToggleMainMenuWidget();
+
+	UFUNCTION()
+	void ToggleInventoryWidget();
 
 	UFUNCTION(BlueprintCallable, Category = "Character Data")
 	float GetCharacterCurrentHealth();
 
 	UFUNCTION()
 	float SetCharacterCurrentHealth(float NewHealth);
+
+	UFUNCTION()
+	void AddItemToInventory(AInventoryItem *Item);
 
 	float CharacterCurrentHealth = 15.f;
 
@@ -94,4 +146,8 @@ public:
 	FORCEINLINE class USpringArmComponent *GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent *GetFollowCamera() const { return FollowCamera; }
+
+private:
+	UPROPERTY(VisibleAnywhere, Category = "Inventory State")
+	FPlayerCharacterInventoryState InventoryState;
 };

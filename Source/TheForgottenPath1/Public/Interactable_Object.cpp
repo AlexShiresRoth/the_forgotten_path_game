@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Interactable_Object_Widget.h"
 #include "Interactable_Object_Menu_Widget.h"
+#include "InventoryItem.h"
 #include "TheForgottenPath1/TheForgottenPath1Character.h"
 
 // Sets default values
@@ -55,21 +56,25 @@ void AInteractable_Object::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("MeshComponent is not valid"));
 	}
 
-	OnBeginCursorOver.AddDynamic(this, &AInteractable_Object::OnActorBeginCursorOver);
+	if (this && !OnBeginCursorOver.IsBound())
+	{
+		OnBeginCursorOver.AddDynamic(this, &AInteractable_Object::OnActorBeginCursorOver);
+	}
 	OnEndCursorOver.AddDynamic(this, &AInteractable_Object::OnActorEndCursorOver);
 }
 
 void AInteractable_Object::OnActorBeginCursorOver(AActor *TouchedActor)
 {
-	if (TouchedActor == nullptr || MeshComponent == nullptr)
+	if (TouchedActor == nullptr || MeshComponent == nullptr || BaseMaterial == nullptr)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("TouchedActor or MeshComponent or BaseMaterial is null"));
 		return;
 	}
 
 	if (TouchedActor == this)
 	{
-
-		ApplyOutlineMaterial();
+		// TODO: I think this is causing the error
+		// ApplyOutlineMaterial();
 
 		if (!MeshTitle.IsEmpty() && MeshID > 0)
 		{
@@ -80,14 +85,15 @@ void AInteractable_Object::OnActorBeginCursorOver(AActor *TouchedActor)
 
 void AInteractable_Object::OnActorEndCursorOver(AActor *TouchedActor)
 {
-	if (TouchedActor == this && MeshComponent)
+	if (TouchedActor == this && MeshComponent != nullptr)
 	{
 		// Revert material on mesh component
-		RevertMaterial();
+		// RevertMaterial();
 
 		HideUIWidget();
 	}
 }
+// TODO around here is causing the error!!
 
 // TODO: Remove player damage, just needed for testing
 void AInteractable_Object::OnMeshClicked(UPrimitiveComponent *ClickedComp, FKey ButtonClicked)
@@ -124,6 +130,9 @@ void AInteractable_Object::ShowUIMenuWidget()
 
 			if (MenuWidget)
 			{
+				MenuWidget->SetCustomObjectData(MeshTitle, MeshID);
+				MenuWidget->SetCustomInventoryItemsList(InventoryItemsList);
+				MenuWidget->SetInteractableObjectInstance(this);
 				MenuWidget->OnCloseButtonClicked.AddDynamic(this, &AInteractable_Object::OnMenuWidgetClosed);
 			}
 
@@ -188,6 +197,25 @@ void AInteractable_Object::HideUIWidget()
 	}
 }
 
+// Remove the item from the object's item list and add it to the player's inventory
+void AInteractable_Object::RemoveItemFromObjectList(AInventoryItem *Item)
+{
+	if (InventoryItemsList.Contains(Item))
+	{
+		ATheForgottenPath1Character *PlayerCharacter = Cast<ATheForgottenPath1Character>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+		if (PlayerCharacter)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Player character: %s"), *PlayerCharacter->GetName());
+			PlayerCharacter->AddItemToInventory(Item);
+			InventoryItemsList.Remove(Item);
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Item %s is not in the list"), *Item->ItemName);
+	}
+}
+
 UMaterialInterface *AInteractable_Object::CreateOutlineMaterial()
 {
 	if (BaseMaterial)
@@ -217,7 +245,12 @@ UMaterialInterface *AInteractable_Object::CreateOutlineMaterial()
 
 void AInteractable_Object::ApplyOutlineMaterial()
 {
-	if (OutlineMaterial && MeshComponent)
+	if (MeshComponent == nullptr || OutlineMaterial == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("MeshComponent or OutlineMaterial is null"));
+		return;
+	}
+	else
 	{
 		MeshComponent->SetMaterial(0, OutlineMaterial);
 	}
