@@ -83,4 +83,5 @@ void UInventoryItemWidget::SetInventoryWidgetReference(UInventory_Widget *Invent
 void UInventoryItemWidget::DestroyWidget()
 {
     this->RemoveFromParent();
+    this->RemoveHoverWidget();
 }
