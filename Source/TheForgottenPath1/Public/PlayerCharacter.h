@@ -13,4 +13,7 @@ UCLASS()
 class THEFORGOTTENPATH1_API APlayerCharacter : public ATheForgottenPath1Character
 {
 	GENERATED_BODY()
+
+public:
+	void EnterCombat();
 };
