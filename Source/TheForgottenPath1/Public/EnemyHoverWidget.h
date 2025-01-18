@@ -19,6 +19,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Enemy")
 	FString EnemyName;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Enemy")
+	float EnemyHealth;
+
 	UFUNCTION()
 	void SetEnemyData(AEnemyCharacter *EnemyCharacter);
 };

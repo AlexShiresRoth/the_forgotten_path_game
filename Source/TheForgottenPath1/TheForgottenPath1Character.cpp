@@ -255,8 +255,6 @@ float ATheForgottenPath1Character::SetCharacterCurrentHealth(float NewHealth)
 	CharacterCurrentHealth = NewHealth;
 	if (CharacterWidgetInstance)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Character widget instance created"));
-
 		UHero_Character_Widget *CharWidget = Cast<UHero_Character_Widget>(CharacterWidgetInstance);
 
 		if (CharWidget)

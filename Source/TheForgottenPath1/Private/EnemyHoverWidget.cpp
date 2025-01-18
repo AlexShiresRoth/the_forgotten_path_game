@@ -8,5 +8,6 @@ void UEnemyHoverWidget::SetEnemyData(AEnemyCharacter *EnemyCharacter)
     if (EnemyCharacter)
     {
         EnemyName = EnemyCharacter->EnemyName;
+        EnemyHealth = EnemyCharacter->GetCharacterCurrentHealth();
     }
 }

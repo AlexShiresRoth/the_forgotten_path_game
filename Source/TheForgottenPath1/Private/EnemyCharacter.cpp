@@ -36,11 +36,10 @@ void AEnemyCharacter::ShowEnemyName(UPrimitiveComponent *TouchedComponent)
 
             if (EnemyHoverWidget)
             {
-                UE_LOG(LogTemplateCharacter, Warning, TEXT("Enemy Name: %s"), *EnemyName);
                 EnemyHoverWidget->SetEnemyData(this);
                 EnemyHoverWidget->AddToViewport();
 
-                FVector MeshLocation = GetActorLocation();
+                FVector MeshLocation = GetMesh()->Bounds.Origin + FVector(0, 0, GetMesh()->Bounds.BoxExtent.Z);
 
                 FVector2D ScreenLocation;
 
@@ -59,4 +58,49 @@ void AEnemyCharacter::HideEnemyName(UPrimitiveComponent *TouchedComponent)
         EnemyHoverWidgetInstance->RemoveFromParent();
         EnemyHoverWidgetInstance = nullptr;
     }
+}
+
+void AEnemyCharacter::AttackEnemy()
+{
+    if (this != nullptr)
+    {
+        // TODO: this is the start of the attack on an enemy logic, super basic for now
+        this->SetCharacterCurrentHealth(this->GetCharacterCurrentHealth() - 10.f);
+    }
+
+    // Update the enemy widget data ie: health and alive status
+    this->UpdateEnemyWidgetData();
+
+    // We need to update the health UI here
+
+    if (this->GetCharacterCurrentHealth() <= 0.f)
+    {
+        this->HandleEnemyDeath();
+    }
+}
+
+void AEnemyCharacter::UpdateEnemyWidgetData()
+{
+    if (EnemyHoverWidgetInstance)
+    {
+
+        UEnemyHoverWidget *EnemyHoverWidget = Cast<UEnemyHoverWidget>(EnemyHoverWidgetInstance);
+
+        if (EnemyHoverWidget)
+        {
+            EnemyHoverWidget->SetEnemyData(this);
+        }
+    }
+    else
+    {
+        UE_LOG(LogTemplateCharacter, Warning, TEXT("Enemy Hover Widget Instance is null"));
+    }
+}
+
+void AEnemyCharacter::HandleEnemyDeath()
+{
+
+    this->bIsDead = true;
+    this->EnterRagdoll();
+    this->SetCharacterCurrentHealth(0.f);
 }

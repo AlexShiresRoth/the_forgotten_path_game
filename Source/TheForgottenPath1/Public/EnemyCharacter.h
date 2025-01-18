@@ -33,6 +33,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Enemy")
 	void ShowEnemyName(UPrimitiveComponent *TouchedComponent);
 
+	UFUNCTION(BlueprintCallable, Category = "Enemy")
+	void AttackEnemy();
+
 	UFUNCTION()
 	void HideEnemyName(UPrimitiveComponent *TouchedComponent);
+
+protected:
+	void HandleEnemyDeath();
+
+	void UpdateEnemyWidgetData();
 };
