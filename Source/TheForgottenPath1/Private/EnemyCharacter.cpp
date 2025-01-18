@@ -3,7 +3,15 @@
 #include "EnemyCharacter.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "EnemyAIController.h"
+#include "BehaviorTree/BehaviorTree.h"
 #include "../Public/EnemyHoverWidget.h"
+
+AEnemyCharacter::AEnemyCharacter()
+{
+    AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+    AIControllerClass = AEnemyAIController::StaticClass();
+}
 
 void AEnemyCharacter::BeginPlay()
 {
@@ -20,6 +28,15 @@ void AEnemyCharacter::BeginPlay()
         // Bind the OnBeginCursorOver event
         SkelMesh->OnBeginCursorOver.AddDynamic(this, &AEnemyCharacter::ShowEnemyName);
         SkelMesh->OnEndCursorOver.AddDynamic(this, &AEnemyCharacter::HideEnemyName);
+    }
+
+    // initialize the enemy AI controller
+    AEnemyAIController *EnemyAIController = Cast<AEnemyAIController>(GetController());
+
+    if (EnemyAIController)
+    {
+        UE_LOG(LogTemplateCharacter, Warning, TEXT("Enemy AI Controller created"));
+        EnemyAIController->StartBehaviorTree(EnemyBehaviorTreeAsset);
     }
 }
 
