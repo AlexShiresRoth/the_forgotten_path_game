@@ -80,8 +80,7 @@ class ATheForgottenPath1Character : public ACharacter
 public:
 	ATheForgottenPath1Character();
 
-	UFUNCTION(BlueprintCallable, Category = Input)
-	void SetMouseCursorVisible(bool bVisible);
+	float CharacterCurrentHealth = 15.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
 	TSubclassOf<UHero_Character_Widget> CharacterWidgetClass;
@@ -100,6 +99,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
 	UInventory_Widget *InventoryWidgetInstance;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character Data")
+	bool bIsDead = false;
 
 	// set widget to viewport
 	UFUNCTION()
@@ -120,10 +122,8 @@ public:
 	UFUNCTION()
 	void AddItemToInventory(AInventoryItem *Item);
 
-	float CharacterCurrentHealth = 15.f;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character Data")
-	bool bIsDead = false;
+	UFUNCTION(BlueprintCallable, Category = Input)
+	void SetMouseCursorVisible(bool bVisible);
 
 	void EnterRagdoll();
 
