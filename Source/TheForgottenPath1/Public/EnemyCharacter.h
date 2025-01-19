@@ -24,9 +24,6 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy AI")
-	UBehaviorTree *EnemyBehaviorTreeAsset;
-
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy")
 	FString EnemyName;
@@ -37,11 +34,18 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Enemy UI")
 	UEnemyHoverWidget *EnemyHoverWidgetInstance;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy AI")
+	UBehaviorTree *EnemyBehaviorTreeAsset;
+
+public:
 	UFUNCTION(BlueprintCallable, Category = "Enemy")
 	void ShowEnemyName(UPrimitiveComponent *TouchedComponent);
 
 	UFUNCTION(BlueprintCallable, Category = "Enemy")
 	void AttackEnemy();
+
+	UFUNCTION()
+	void UpdateSpeed(float NewSpeed);
 
 	UFUNCTION()
 	void HideEnemyName(UPrimitiveComponent *TouchedComponent);

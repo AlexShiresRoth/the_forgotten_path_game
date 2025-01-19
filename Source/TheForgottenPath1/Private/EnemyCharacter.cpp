@@ -5,6 +5,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "EnemyAIController.h"
 #include "BehaviorTree/BehaviorTree.h"
+#include "Animation/AnimInstance.h"
+#include "ABP_Manny_C.generated.h"
 #include "../Public/EnemyHoverWidget.h"
 
 AEnemyCharacter::AEnemyCharacter()
@@ -28,15 +30,6 @@ void AEnemyCharacter::BeginPlay()
         // Bind the OnBeginCursorOver event
         SkelMesh->OnBeginCursorOver.AddDynamic(this, &AEnemyCharacter::ShowEnemyName);
         SkelMesh->OnEndCursorOver.AddDynamic(this, &AEnemyCharacter::HideEnemyName);
-    }
-
-    // initialize the enemy AI controller
-    AEnemyAIController *EnemyAIController = Cast<AEnemyAIController>(GetController());
-
-    if (EnemyAIController)
-    {
-        UE_LOG(LogTemplateCharacter, Warning, TEXT("Enemy AI Controller created"));
-        EnemyAIController->StartBehaviorTree(EnemyBehaviorTreeAsset);
     }
 }
 
@@ -120,4 +113,15 @@ void AEnemyCharacter::HandleEnemyDeath()
     this->bIsDead = true;
     this->EnterRagdoll();
     this->SetCharacterCurrentHealth(0.f);
+}
+
+void AEnemyCharacter::UpdateSpeed(float NewSpeed)
+{
+    UAnimInstance *AnimInstance = GetMesh()->GetAnimInstance();
+
+    if (AnimInstance)
+    {
+        UE_LOG(LogTemplateCharacter, Warning, TEXT("Updating speed %s"), *AnimInstance->GetName());
+        UE_LOG(LogTemplateCharacter, Warning, TEXT("Speed %f"), NewSpeed);
+        }
 }
