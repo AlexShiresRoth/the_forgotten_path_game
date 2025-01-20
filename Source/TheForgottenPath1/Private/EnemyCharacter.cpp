@@ -3,7 +3,16 @@
 #include "EnemyCharacter.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "EnemyAIController.h"
+#include "BehaviorTree/BehaviorTree.h"
+#include "Animation/AnimInstance.h"
 #include "../Public/EnemyHoverWidget.h"
+
+AEnemyCharacter::AEnemyCharacter()
+{
+    AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+    AIControllerClass = AEnemyAIController::StaticClass();
+}
 
 void AEnemyCharacter::BeginPlay()
 {

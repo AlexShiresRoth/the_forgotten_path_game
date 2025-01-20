@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "../TheForgottenPath1Character.h"
 #include "Components/PrimitiveComponent.h"
+#include "BehaviorTree/BehaviorTreeComponent.h"
 #include "EnemyCharacter.generated.h"
 
 /**
@@ -16,6 +17,9 @@ UCLASS()
 class THEFORGOTTENPATH1_API AEnemyCharacter : public ATheForgottenPath1Character
 {
 	GENERATED_BODY()
+
+public:
+	AEnemyCharacter();
 
 protected:
 	virtual void BeginPlay() override;
@@ -30,6 +34,10 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Enemy UI")
 	UEnemyHoverWidget *EnemyHoverWidgetInstance;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy AI")
+	UBehaviorTree *EnemyBehaviorTreeAsset;
+
+public:
 	UFUNCTION(BlueprintCallable, Category = "Enemy")
 	void ShowEnemyName(UPrimitiveComponent *TouchedComponent);
 
