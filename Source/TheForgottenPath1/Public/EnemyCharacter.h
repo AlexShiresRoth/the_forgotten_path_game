@@ -45,9 +45,6 @@ public:
 	void AttackEnemy();
 
 	UFUNCTION()
-	void UpdateSpeed(float NewSpeed);
-
-	UFUNCTION()
 	void HideEnemyName(UPrimitiveComponent *TouchedComponent);
 
 protected:

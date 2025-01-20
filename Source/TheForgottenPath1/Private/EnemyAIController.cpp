@@ -56,19 +56,13 @@ void AEnemyAIController::SetRandomPatrolLocation()
         BlackboardComponent->SetValueAsVector(TEXT("TargetLocation"), NavLocation.Location);
 
         ACharacter *Enemy = Cast<ACharacter>(GetPawn());
+
         if (Enemy)
         {
             FVector Velocity = Enemy->GetVelocity();
             float Speed = Velocity.Size();
 
             Enemy->GetCharacterMovement()->MaxWalkSpeed = 300.f;
-
-            AEnemyCharacter *EnemyCharacter = Cast<AEnemyCharacter>(GetPawn());
-
-            if (EnemyCharacter)
-            {
-                EnemyCharacter->UpdateSpeed(300.f);
-            }
         }
 
         MoveToLocation(NavLocation.Location);

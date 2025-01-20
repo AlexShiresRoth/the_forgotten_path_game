@@ -6,7 +6,6 @@
 #include "EnemyAIController.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "Animation/AnimInstance.h"
-#include "ABP_Manny_C.generated.h"
 #include "../Public/EnemyHoverWidget.h"
 
 AEnemyCharacter::AEnemyCharacter()
@@ -113,15 +112,4 @@ void AEnemyCharacter::HandleEnemyDeath()
     this->bIsDead = true;
     this->EnterRagdoll();
     this->SetCharacterCurrentHealth(0.f);
-}
-
-void AEnemyCharacter::UpdateSpeed(float NewSpeed)
-{
-    UAnimInstance *AnimInstance = GetMesh()->GetAnimInstance();
-
-    if (AnimInstance)
-    {
-        UE_LOG(LogTemplateCharacter, Warning, TEXT("Updating speed %s"), *AnimInstance->GetName());
-        UE_LOG(LogTemplateCharacter, Warning, TEXT("Speed %f"), NewSpeed);
-        }
 }
