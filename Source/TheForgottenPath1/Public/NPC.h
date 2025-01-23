@@ -9,6 +9,7 @@
 /**
  *
  */
+class UDialogWidget;
 UCLASS()
 class THEFORGOTTENPATH1_API ANPC : public ATheForgottenPath1Character
 {
@@ -20,4 +21,7 @@ protected:
 public:
 	UFUNCTION(BlueprintCallable, Category = "NPC")
 	void StartDialog();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialog")
+	TSubclassOf<UDialogWidget> DialogWidget;
 };

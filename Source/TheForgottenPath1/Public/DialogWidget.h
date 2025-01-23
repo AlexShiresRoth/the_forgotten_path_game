@@ -7,11 +7,12 @@
 #include "DialogWidget.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class THEFORGOTTENPATH1_API UDialogWidget : public UUserWidget
 {
 	GENERATED_BODY()
-	
+
+	// TODO - add this widget to the NPC
 };

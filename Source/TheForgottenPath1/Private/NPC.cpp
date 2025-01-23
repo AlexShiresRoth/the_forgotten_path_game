@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "../Public/NPC.h"
+#include "../Public/DialogWidget.h"
 
 void ANPC::BeginPlay()
 {
@@ -20,5 +21,13 @@ void ANPC::BeginPlay()
 
 void ANPC::StartDialog()
 {
-    UE_LOG(LogTemp, Warning, TEXT("NPC Dialog Started with %s"), *GetName());
+    if (DialogWidget)
+    {
+        UDialogWidget *Dialog = CreateWidget<UDialogWidget>(GetWorld(), DialogWidget);
+
+        if (Dialog)
+        {
+            Dialog->AddToViewport();
+        }
+    }
 }
