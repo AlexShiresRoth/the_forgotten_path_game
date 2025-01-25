@@ -14,6 +14,9 @@
 				"AIModule"
 			]
 		}
+		{ "Name": "GameplayAbilities" },
+    	{ "Name": "GameplayTags" },
+    	{ "Name": "GameplayTasks" }
 	],
 	"Plugins": [
 		{
