@@ -18,10 +18,18 @@ class THEFORGOTTENPATH1_API ANPC : public ATheForgottenPath1Character
 protected:
 	virtual void BeginPlay() override;
 
+protected:
+	// This is used to help find in the data table which dialg to reference for this NPC
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialog")
+	FName NPCID;
+
 public:
 	UFUNCTION(BlueprintCallable, Category = "NPC")
 	void StartDialog();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialog")
 	TSubclassOf<UDialogWidget> DialogWidget;
+
+public:
+	FName GETNPCID() const { return NPCID; }
 };

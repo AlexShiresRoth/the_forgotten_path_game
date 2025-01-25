@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "5.4",
+	"EngineAssociation": "5.5",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -14,9 +14,6 @@
 				"AIModule"
 			]
 		}
-		{ "Name": "GameplayAbilities" },
-    	{ "Name": "GameplayTags" },
-    	{ "Name": "GameplayTasks" }
 	],
 	"Plugins": [
 		{
@@ -26,5 +23,10 @@
 				"Editor"
 			]
 		}
+	],
+	"AdditionalDependencies": [
+		"GameplayAbilities",
+		"GameplayTags",
+		"GameplayTasks"
 	]
 }
