@@ -5,9 +5,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "DialogNode.h"
+#include "DialogWidget.h"
 #include "DialogManager.generated.h"
 
-UCLASS()
+UCLASS(BlueprintType)
 class THEFORGOTTENPATH1_API ADialogManager : public AActor
 {
 	GENERATED_BODY()
@@ -20,7 +21,7 @@ public:
 	UDataTable *DialogDataTable;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialog")
-	TSubclassOf<UUserWidget> DialogWidgetClass;
+	TSubclassOf<UDialogWidget> DialogWidgetClass;
 
 protected:
 	// Called when the game starts or when spawned
