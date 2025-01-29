@@ -37,17 +37,26 @@ void ADialog_Manager::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-// TODO we need to get the row data by npc id and display it in the widget
 void ADialog_Manager::StartDialog(FName NPCID)
 {
-	if (DialogWidgetClass)
+	if (DialogWidgetClass && !DialogWidgetInstance)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("NPC ID: %s"), *NPCID.ToString());
 		DialogWidgetInstance = CreateWidget<UDialogWidget>(GetWorld(), DialogWidgetClass);
 
-		if (DialogWidgetInstance)
+		if (DialogWidgetInstance && DialogDataTable)
 		{
 			DialogWidgetInstance->AddToViewport();
+
+			const FDialogNode *RowData = DialogDataTable->FindRow<FDialogNode>(NPCID, TEXT("Looking for Dialog Node"));
+
+			if (RowData)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Found Dialog Node %s"), *RowData->NodeID.ToString());
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Did not find Dialog Node %s"), *NPCID.ToString());
+			}
 		}
 	}
 	else

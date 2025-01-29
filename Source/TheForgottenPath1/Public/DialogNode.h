@@ -12,7 +12,10 @@ struct FDialogChoice
 
 public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialog")
-    FString ChoiceText;
+    FString NodeID;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialog")
+    TArray<FString> DialogLines;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialog")
     FName NextNodeID;
@@ -37,7 +40,10 @@ public:
     FName NodeID;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialog")
-    FString NPCText;
+    FString NPCInitialText;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialog")
+    TArray<FDialogChoice> NPCResponses;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialog")
     TArray<FDialogChoice> PlayerChoices;
