@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "DialogManager.h"
+#include "Dialog_Manager.h"
 #include "Forgotten_Path_GM.generated.h"
 
 /**
@@ -20,7 +20,8 @@ protected:
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialog Manager")
-	TSubclassOf<ADialogManager> DialogManagerClass;
+	TSubclassOf<ADialog_Manager> DialogManagerClass;
 
-	ADialogManager *DialogManager;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Dialog Manager")
+	ADialog_Manager *DialogManager;
 };

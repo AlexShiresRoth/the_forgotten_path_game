@@ -17,6 +17,7 @@ class UHero_Character_Widget;
 class UMenu_Widget;
 class UInventory_Widget;
 class AInventoryItem;
+class ADialog_Manager;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 

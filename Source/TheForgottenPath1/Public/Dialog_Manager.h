@@ -6,16 +6,16 @@
 #include "GameFramework/Actor.h"
 #include "DialogNode.h"
 #include "DialogWidget.h"
-#include "DialogManager.generated.h"
+#include "Dialog_Manager.generated.h"
 
 UCLASS()
-class THEFORGOTTENPATH1_API ADialogManager : public AActor
+class THEFORGOTTENPATH1_API ADialog_Manager : public AActor
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this actor's properties
-	ADialogManager();
+	ADialog_Manager();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialog")
 	UDataTable *DialogDataTable;

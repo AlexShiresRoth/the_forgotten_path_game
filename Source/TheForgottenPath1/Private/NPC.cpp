@@ -2,6 +2,8 @@
 
 #include "../Public/NPC.h"
 #include "../Public/DialogWidget.h"
+#include "Forgotten_Path_GM.h"
+#include "Dialog_Manager.h"
 
 void ANPC::BeginPlay()
 {
@@ -21,13 +23,13 @@ void ANPC::BeginPlay()
 
 void ANPC::StartDialog()
 {
-    if (DialogWidget)
+    AForgotten_Path_GM *GameMode = Cast<AForgotten_Path_GM>(GetWorld()->GetAuthGameMode());
+    if (GameMode)
     {
-        UDialogWidget *Dialog = CreateWidget<UDialogWidget>(GetWorld(), DialogWidget);
-
-        if (Dialog)
-        {
-            Dialog->AddToViewport();
-        }
+        GameMode->DialogManager->StartDialog(NPCID);
+    }
+    else
+    {
+        UE_LOG(LogTemp, Error, TEXT("GameMode is null"));
     }
 }

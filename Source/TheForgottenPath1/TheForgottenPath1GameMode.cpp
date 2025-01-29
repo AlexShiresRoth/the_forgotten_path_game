@@ -2,7 +2,6 @@
 
 #include "TheForgottenPath1GameMode.h"
 #include "TheForgottenPath1Character.h"
-#include "Public/DialogManager.h"
 #include "UObject/ConstructorHelpers.h"
 
 ATheForgottenPath1GameMode::ATheForgottenPath1GameMode()

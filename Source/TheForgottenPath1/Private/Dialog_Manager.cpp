@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "DialogManager.h"
+#include "Dialog_Manager.h"
 #include "DialogWidget.h"
 
 // Sets default values
-ADialogManager::ADialogManager()
+ADialog_Manager::ADialog_Manager()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -26,23 +26,29 @@ ADialogManager::ADialogManager()
 }
 
 // Called when the game starts or when spawned
-void ADialogManager::BeginPlay()
+void ADialog_Manager::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
 // Called every frame
-void ADialogManager::Tick(float DeltaTime)
+void ADialog_Manager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
 
-// TODO case dialog instance here to handle UI dialog stuff
-void ADialogManager::StartDialog(FName NPCID)
+// TODO we need to get the row data by npc id and display it in the widget
+void ADialog_Manager::StartDialog(FName NPCID)
 {
 	if (DialogWidgetClass)
 	{
-		UE_LOG(LogTemp, Log, TEXT("NPC ID: %s"), *NPCID.ToString());
+		UE_LOG(LogTemp, Warning, TEXT("NPC ID: %s"), *NPCID.ToString());
+		DialogWidgetInstance = CreateWidget<UDialogWidget>(GetWorld(), DialogWidgetClass);
+
+		if (DialogWidgetInstance)
+		{
+			DialogWidgetInstance->AddToViewport();
+		}
 	}
 	else
 	{
@@ -50,6 +56,6 @@ void ADialogManager::StartDialog(FName NPCID)
 	}
 }
 
-void ADialogManager::DisplayDialog(FName DialogID)
+void ADialog_Manager::DisplayDialog(FName DialogID)
 {
 }
