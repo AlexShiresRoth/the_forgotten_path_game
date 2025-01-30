@@ -94,3 +94,12 @@ void ADialog_Manager::ContinueDialog(FName NextNodeID)
 		}
 	}
 }
+
+void ADialog_Manager::EndDialog()
+{
+	if (DialogWidgetInstance)
+	{
+		DialogWidgetInstance->RemoveFromParent();
+		DialogWidgetInstance = nullptr;
+	}
+}

@@ -35,6 +35,8 @@ public:
 
 	void ContinueDialog(FName NextNodeID);
 
+	void EndDialog();
+
 private:
 	UDialogWidget *DialogWidgetInstance;
 

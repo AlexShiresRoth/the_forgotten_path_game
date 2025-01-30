@@ -20,9 +20,18 @@ void UPlayer_Choices_Dialog_Widget::ContinueDialogBasedOnPlayerChoice()
     if (PlayerChoicesText != "" && !NextNodeID.IsNone())
     {
         AForgotten_Path_GM *GameMode = Cast<AForgotten_Path_GM>(GetWorld()->GetAuthGameMode());
+
         if (GameMode)
         {
-            GameMode->DialogManager->ContinueDialog(NextNodeID);
+            if (NextNodeID == FName("EndDialog"))
+            {
+                GameMode->DialogManager->EndDialog();
+                return;
+            }
+            else
+            {
+                GameMode->DialogManager->ContinueDialog(NextNodeID);
+            }
         }
     }
 }
