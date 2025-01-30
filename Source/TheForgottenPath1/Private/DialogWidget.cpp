@@ -10,7 +10,7 @@ void UDialogWidget::UpdateDialog(const TArray<FDialogChoice> &NPCDialogLines, co
 
     if (!NPCDialogScrollBox || !PlayerChoicesScrollBox)
     {
-        UE_LOG(LogTemp, Error, TEXT("Scroll boxes are not set up in the DialogWidget!"));
+        UE_LOG(LogTemp, Error, TEXT("DIALOGWIDGET::Scroll boxes are not set up in the DialogWidget!"));
         return;
     }
 
@@ -42,7 +42,8 @@ void UDialogWidget::UpdateDialog(const TArray<FDialogChoice> &NPCDialogLines, co
 
             if (PlayerChoicesWidget)
             {
-                PlayerChoicesWidget->SetPlayerChoicesText(DialogLine);
+
+                PlayerChoicesWidget->SetPlayerChoicesText(DialogLine, Line.NextNodeID);
 
                 PlayerChoicesScrollBox->AddChild(PlayerChoicesWidget);
             }

@@ -30,5 +30,5 @@ public:
 	float MaxHealth = 15.f;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadonly, Category = "Character Data")
-	FString DeathText = "You're Still Alive";
+	FString DeathText = "";
 };

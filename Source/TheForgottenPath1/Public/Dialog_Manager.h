@@ -33,7 +33,7 @@ public:
 
 	void StartDialog(FName NPCID);
 
-	void DisplayDialog(FName DialogID);
+	void ContinueDialog(FName NextNodeID);
 
 private:
 	UDialogWidget *DialogWidgetInstance;

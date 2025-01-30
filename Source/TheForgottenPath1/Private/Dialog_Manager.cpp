@@ -37,6 +37,8 @@ void ADialog_Manager::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+// The initial dialog is started when the player clicks on a specific character
+// The character should have an ID and that is what is passed here
 void ADialog_Manager::StartDialog(FName NPCID)
 {
 	if (DialogWidgetClass && !DialogWidgetInstance)
@@ -51,13 +53,13 @@ void ADialog_Manager::StartDialog(FName NPCID)
 
 			if (RowData)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Found Dialog Node %s"), *RowData->NodeID.ToString());
+				UE_LOG(LogTemp, Warning, TEXT("DIALOG_MANAGER::Found Dialog Node %s"), *RowData->NodeID.ToString());
 
 				DialogWidgetInstance->UpdateDialog(RowData->NPCResponses, RowData->PlayerChoices);
 			}
 			else
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Did not find Dialog Node %s"), *NPCID.ToString());
+				UE_LOG(LogTemp, Warning, TEXT("DIALOG_MANAGER::Did not find Dialog Node %s"), *NPCID.ToString());
 			}
 		}
 	}
@@ -67,6 +69,28 @@ void ADialog_Manager::StartDialog(FName NPCID)
 	}
 }
 
-void ADialog_Manager::DisplayDialog(FName DialogID)
+// The continue dialog is called from the player choices dialog widget
+// the widget passes the next node id which is the name of a row in the data table
+void ADialog_Manager::ContinueDialog(FName NextNodeID)
 {
+	if (!NextNodeID.IsNone())
+	{
+		if (DialogWidgetInstance && DialogDataTable)
+		{
+			DialogWidgetInstance->AddToViewport();
+
+			const FDialogNode *RowData = DialogDataTable->FindRow<FDialogNode>(NextNodeID, TEXT("Looking for Dialog Node"));
+
+			if (RowData)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("DIALOG_MANAGER::Found Dialog Node %s"), *RowData->NodeID.ToString());
+
+				DialogWidgetInstance->UpdateDialog(RowData->NPCResponses, RowData->PlayerChoices);
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("DIALOG_MANAGER::Did not find Dialog Node %s"), *NextNodeID.ToString());
+			}
+		}
+	}
 }

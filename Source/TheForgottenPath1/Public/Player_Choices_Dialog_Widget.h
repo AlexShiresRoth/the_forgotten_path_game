@@ -18,7 +18,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialog")
 	FString PlayerChoicesText;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Dialog")
+	FName NextNodeID;
+
 public:
 	UFUNCTION()
-	void SetPlayerChoicesText(FString Text);
+	void SetPlayerChoicesText(FString Text, FName ChoiceNextNodeID);
+
+	UFUNCTION(BlueprintCallable, Category = "Dialog")
+	void ContinueDialogBasedOnPlayerChoice();
 };

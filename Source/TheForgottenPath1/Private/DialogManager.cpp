@@ -37,13 +37,12 @@ void ADialogManager::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-// TODO case dialog instance here to handle UI dialog stuff
 void ADialogManager::StartDialog(FName NPCID)
 {
 	if (DialogWidgetClass)
 	{
 		UE_LOG(LogTemp, Log, TEXT("NPC ID: %s"), *NPCID.ToString());
-		}
+	}
 	else
 	{
 		UE_LOG(LogTemp, Error, TEXT("NPCID is null"));
