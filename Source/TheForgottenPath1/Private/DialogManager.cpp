@@ -17,7 +17,6 @@ ADialogManager::ADialogManager()
 	// okay this was called but the dialog widget is never found
 	if (DialogWidgetBPClass.Succeeded())
 	{
-		UE_LOG(LogTemp, Log, TEXT("DialogWidget class Found %s"), *DialogWidgetBPClass.Class->GetName());
 		DialogWidgetClass = DialogWidgetBPClass.Class;
 	}
 	else
@@ -44,7 +43,7 @@ void ADialogManager::StartDialog(FName NPCID)
 	if (DialogWidgetClass)
 	{
 		UE_LOG(LogTemp, Log, TEXT("NPC ID: %s"), *NPCID.ToString());
-	}
+		}
 	else
 	{
 		UE_LOG(LogTemp, Error, TEXT("NPCID is null"));

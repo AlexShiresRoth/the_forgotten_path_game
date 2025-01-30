@@ -52,6 +52,8 @@ void ADialog_Manager::StartDialog(FName NPCID)
 			if (RowData)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Found Dialog Node %s"), *RowData->NodeID.ToString());
+
+				DialogWidgetInstance->UpdateDialog(RowData->NPCResponses, RowData->PlayerChoices);
 			}
 			else
 			{

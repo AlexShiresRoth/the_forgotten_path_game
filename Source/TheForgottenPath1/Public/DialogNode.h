@@ -39,6 +39,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialog")
     FName NodeID;
 
+    // TODO REMOVE THIS
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialog")
     FString NPCInitialText;
 
